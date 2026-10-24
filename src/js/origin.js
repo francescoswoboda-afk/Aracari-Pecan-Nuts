@@ -42,7 +42,7 @@ const Origin = (() => {
   let sc = 1, ox = 0, oy = 0;
   function resize() {
     const r = cv.getBoundingClientRect(); if (!r.width) return;
-    dpr = Math.min(1.5, devicePixelRatio || 1); W = r.width; H = r.height;
+    dpr = Util.phone.matches ? 1 : Math.min(1.5, devicePixelRatio || 1); W = r.width; H = r.height;
     cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
     sc = Math.max(W / 800, H / 600); ox = (W - 800 * sc) / 2; oy = (H - 600 * sc) / 2;
     // hills and trees never change: draw them once
@@ -175,12 +175,13 @@ const Origin = (() => {
     return { x: m.a * pt.x + m.c * pt.y + m.e, y: m.b * pt.x + m.d * pt.y + m.f };
   }
 
+  let pendingP = 0, drawQueued = false;
   function init() {
     buildOrchard(); buildMap(); render(0);
     if (!window.ScrollTrigger) { document.querySelectorAll('.season').forEach(s => s.classList.add('on')); return; }
     ScrollTrigger.create({
       trigger: '.origin', start: 'top top', end: () => '+=' + innerHeight * 4.2, pin: '.origin-pin', scrub: true,
-      onUpdate: self => render(self.progress * 5),
+      onUpdate: self => { pendingP = self.progress * 5; if (!drawQueued) { drawQueued = true; requestAnimationFrame(() => { drawQueued = false; render(pendingP); }); } },
     });
   }
   return { init, routePoint, get onRoute() { return active; }, get progress() { return progress; } };

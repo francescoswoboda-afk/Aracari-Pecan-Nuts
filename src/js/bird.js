@@ -3,7 +3,7 @@
    It perches on elements, follows the cursor with its head, flies between sections,
    reacts to the shop and has idle behaviours. All motion is computed per frame here. */
 const Bird = (() => {
-  const { clamp, lerp, rand, reduced } = Util;
+  const { clamp, lerp, rand, reduced, phone } = Util;
   const NS = 'http://www.w3.org/2000/svg';
   const ANCHOR = { x: 106, y: 180 };            // where the feet grip, in SVG units
   const NECK = { x: 112, y: 82 }, SHOULDER = { x: 100, y: 94 }, TAIL = { x: 90, y: 164 };
@@ -106,12 +106,14 @@ const Bird = (() => {
     // phones: tilt the head with the gyroscope where allowed; touch position otherwise
     addEventListener('deviceorientation', e => {
       if (e.gamma == null) return;
-      lookAt = { x: innerWidth / 2 + clamp(e.gamma, -40, 40) / 40 * innerWidth * .6, y: innerHeight / 2 + clamp((e.beta || 45) - 45, -40, 40) / 40 * innerHeight * .6 };
+      const next = { x: innerWidth / 2 + clamp(e.gamma, -40, 40) / 40 * innerWidth * .6, y: innerHeight / 2 + clamp((e.beta || 45) - 45, -40, 40) / 40 * innerHeight * .6 };
+      // ignore the sensor's jitter: every tiny head move repaints the bird and costs cheap phones frames
+      if (Math.hypot(next.x - lookAt.x, next.y - lookAt.y) > 24) lookAt = next;
     }, { passive: true });
     requestAnimationFrame(tick);
   }
   let sizeMul = 1, sizeT = 124;
-  function setSize() { sizeT = (innerWidth < 700 ? 84 : innerWidth < 1100 ? 104 : 124) * sizeMul; if (S.size === 120) { S.size = sizeT; el.style.setProperty('--bird-w', sizeT + 'px'); } }
+  function setSize() { sizeT = (innerWidth < 700 ? 66 : innerWidth < 1100 ? 104 : 124) * sizeMul; if (S.size === 120) { S.size = sizeT; el.style.setProperty('--bird-w', sizeT + 'px'); } }
   // inside panels (cart, product sheet, checkout) the bird shrinks so it fits beside the title
   function setMini(on) { sizeMul = typeof on === 'number' ? on : on ? .62 : 1; setSize(); }
   function setAccent(c) {
@@ -177,9 +179,8 @@ const Bird = (() => {
     }
     // size eases toward its target (smaller inside panels)
     if (Math.abs(sizeT - S.size) > .3) { S.size += (sizeT - S.size) * k(dt, 8); el.style.setProperty('--bird-w', S.size.toFixed(1) + 'px'); }
-    // breathing
-    const breathe = Math.sin(t * 2.2) * .012;
-    S.scale = 1 + breathe;
+    // breathing is a CSS animation on the SVG (.bird svg in styles.css): the graphics chip runs it,
+    // so a bird sitting still costs nothing per frame
 
     // springs
     const kk = k(dt, 12);
@@ -207,7 +208,7 @@ const Bird = (() => {
   let pageLayer = null, fixedLayer = null;
   function render() {
     const s = S.size / 200, ax = ANCHOR.x * s, ay = ANCHOR.y * s;
-    const anchored = mode === 'perched' && !!perch && !perch.nav && !perch.fixed;
+    const anchored = pageFlight || (mode === 'perched' && !!perch && !perch.nav && !perch.fixed);
     if (anchored !== el._anch) { (anchored ? pageLayer : fixedLayer).appendChild(el); el._anch = anchored; el._tf = null; }
     const ox = anchored ? scrollX : 0, oy = anchored ? scrollY : 0;
     const tf = `translate3d(${(S.x + ox - ax).toFixed(1)}px, ${(S.y + oy - ay - S.hop).toFixed(1)}px, 0) rotate(${S.tilt.toFixed(1)}deg) scale(${(S.flip * S.scale).toFixed(3)}, ${(S.scale * S.squash).toFixed(3)})`;
@@ -232,7 +233,7 @@ const Bird = (() => {
     setA(parts.near, 'transform', `translate(${SHOULDER.x} ${SHOULDER.y}) rotate(${flapA.toFixed(1)}) scale(1 ${flapS.toFixed(2)})`);
     setA(parts.far, 'transform', `translate(${SHOULDER.x + 8} ${SHOULDER.y - 4}) rotate(${(flapA - 12).toFixed(1)}) scale(.9 ${(flapS * .9).toFixed(2)})`);
     R(parts.wing, S.sleep * -6, SHOULDER.x, SHOULDER.y);
-    setA(parts.feet, 'transform', `translate(0 ${(1 - S.feet) * -6}) scale(1 ${(.4 + .6 * S.feet).toFixed(2)})`);
+    setA(parts.feet, 'transform', `translate(0 ${((1 - S.feet) * -6).toFixed(1)}) scale(1 ${(.4 + .6 * S.feet).toFixed(2)})`);   // rounded: unrounded, it changed (and repainted) every frame
     const fl = S.gold > .01 ? `drop-shadow(0 0 ${(12 * S.gold).toFixed(1)}px rgba(246,214,65,${S.gold.toFixed(2)}))` : '';
     if (fl !== el._fl) { el.style.filter = fl; el._fl = fl; }
     Bubble.follow(S.x, S.y - S.size * .95);
@@ -256,9 +257,13 @@ const Bird = (() => {
   async function happy(ms = 900) { T.happy = 1; T.lid = 1; await wait(ms); T.happy = 0; T.lid = .2; }
 
   /* ---------------- flight ---------------- */
-  let flightId = 0;
+  let flightId = 0, pageFlight = false;
+  // opts.page: fly in page coordinates, in the layer that scrolls with the page (phones). The phone
+  // scrolls that layer itself, so a scroll during the flight can never make the bird lag or jump.
   function flyTo(getTarget, opts = {}) {
     const id = ++flightId;
+    pageFlight = false;
+    if (opts.page && !reduced.matches && !opts.instant) return flyInPage(id, getTarget, opts);
     const start = anchorScreen();
     if (reduced.matches || opts.instant) {
       return new Promise(res => {
@@ -300,6 +305,44 @@ const Bird = (() => {
     });
   }
 
+  function flyInPage(id, getTarget, opts) {
+    const doc = v => v && { x: v.x + scrollX, y: v.y + scrollY };
+    let e0 = doc(getTarget()); if (!e0) return Promise.resolve('no target');
+    // start where the bird is; if that is far off screen, come in from just above the screen
+    let start = { x: S.x + scrollX, y: S.y + scrollY };
+    if (S.y < -S.size || S.y > innerHeight + S.size) start = { x: e0.x < innerWidth / 2 ? innerWidth + 40 : -40, y: scrollY - 40 };
+    mode = 'flying'; S.flying = true; S.flapSpeed = 26; T.happy = 0; T.lid = .1; pageFlight = true;
+    S.x = start.x - scrollX; S.y = start.y - scrollY;
+    const dist = Math.hypot(e0.x - start.x, e0.y - start.y);
+    const dur = clamp(dist / 700, .6, 1.4) * (opts.speed || 1), lift = clamp(dist * .3, 40, 160);
+    const t0 = performance.now();
+    return new Promise(res => {
+      const step = now => {
+        if (id !== flightId) { pageFlight = false; return res('cancelled'); }
+        const p = clamp((now - t0) / (dur * 1000), 0, 1);
+        const e = doc(getTarget()) || e0; e0 = e;
+        const ep = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        const cx = (start.x + e.x) / 2, cy = Math.min(start.y, e.y) - lift;
+        const nx = (1 - ep) * (1 - ep) * start.x + 2 * (1 - ep) * ep * cx + ep * ep * e.x;
+        const ny = (1 - ep) * (1 - ep) * start.y + 2 * (1 - ep) * ep * cy + ep * ep * e.y;
+        const vx = nx - (S.x + scrollX), vy = ny - (S.y + scrollY);
+        if (Math.abs(vx) > .6) S.flip = vx > 0 ? 1 : -1;
+        S.tilt = clamp(Math.atan2(vy, Math.abs(vx) + 4) * 180 / Math.PI * .45, -28, 28) * S.flip;
+        S.x = nx - scrollX; S.y = ny - scrollY;               // render() adds the scroll back: page coordinates
+        S.flapSpeed = p > .82 ? 12 : 26;
+        T.headRot = clamp(-S.tilt * S.flip * .5, -20, 20);
+        if (p < 1) requestAnimationFrame(step);
+        else {
+          S.flying = false; S.squash = .78; S.hop = 0; T.lid = .2; pageFlight = false;
+          mode = opts.after || 'perched';
+          Sound.chirp(2); setTimeout(() => hopOnce(6), 160);
+          res('landed');
+        }
+      };
+      requestAnimationFrame(step);
+    });
+  }
+
   let trackFn = null;
   function track(fn) { if (busy) return; flightId++; trackFn = fn; mode = 'track'; perch = null; S.flying = true; S.flapSpeed = 20; }
   function untrack() { if (mode !== 'track') return; trackFn = null; mode = 'idle'; S.flying = false; }
@@ -310,9 +353,11 @@ const Bird = (() => {
     if (perch && perch.el === p.el && mode !== 'flying') return;
     perch = p;
     if (busy && !opts.force) return;
-    return flyTo(() => perchPoint(p), opts);
+    return flyTo(() => perchPoint(p), { page: phone.matches && !p.fixed && !p.nav, ...opts });
   }
   const currentPerch = () => perch;
+  // phones: step aside while a panel (cart, product, checkout) is open, and come back after
+  function hideFor(on) { S.alpha = on ? 0 : 1; if (el) el.style.pointerEvents = on ? 'none' : ''; }
 
   /* ---------------- reactions ---------------- */
   // pick up a pecan, crack it with the beak, toss the pieces
@@ -353,7 +398,7 @@ const Bird = (() => {
   // carry a pack from a card to the cart
   let delivering = false;
   async function deliver(fromEl, imgSrc, toEl) {
-    if (delivering || reduced.matches) { flyClone(fromEl, imgSrc, toEl); return; }
+    if (delivering || reduced.matches || phone.matches) { flyClone(fromEl, imgSrc, toEl); return; }
     delivering = true; busy = true;
     const back = perch;
     const r0 = () => { const r = fromEl.getBoundingClientRect(); return { x: r.left + r.width * .5, y: r.top + r.height * .3 }; };
@@ -442,7 +487,7 @@ const Bird = (() => {
   }
 
   return {
-    build, setMini, perchOn, currentPerch, flyTo, track, untrack, hop, crack, celebrate, say, sleep, toss, showBeak, wave, deliver, setAccent, burst, happy,
+    build, setMini, perchOn, hideFor, currentPerch, flyTo, track, untrack, hop, crack, celebrate, say, sleep, toss, showBeak, wave, deliver, setAccent, burst, happy,
     get busy() { return busy || delivering; }, set busy(v) { busy = v; },
     get mode() { return mode; }, set mode(v) { mode = v; }, get state() { return S; },
   };
@@ -457,7 +502,7 @@ const Bubble = (() => {
     if (window.gsap) gsap.fromTo(el, { scale: .6, opacity: 0 }, { scale: 1, opacity: 1, duration: .5, ease: 'back.out(2)' });
     clearTimeout(timer); timer = setTimeout(hide, ms);
   }
-  function hide() { if (!el) return; visible = false; if (window.gsap) gsap.to(el, { opacity: 0, duration: .3, onComplete: () => (el.hidden = true) }); else el.hidden = true; }
+  function hide() { if (!el || !visible) return; visible = false; if (window.gsap) gsap.to(el, { opacity: 0, duration: .3, onComplete: () => (el.hidden = true) }); else el.hidden = true; }
   function follow(x, y) {
     if (!visible || !el) return;
     const w = el.offsetWidth, h = el.offsetHeight;

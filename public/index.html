@@ -231,10 +231,13 @@ h3 { font-family: var(--display); font-weight: 700; font-size: var(--fs-h3); lin
 @keyframes marquee { to { transform: translateX(-50%); } }
 
 /* ---------- 3D pack ---------- */
-.pack3d { position: relative; aspect-ratio: 2 / 3; perspective: 1200px; max-width: 100%; touch-action: pan-y; -webkit-user-select: none; user-select: none; -webkit-user-drag: none; -webkit-touch-callout: none; }
+.pack3d { position: relative; aspect-ratio: 2 / 3; max-width: 100%; touch-action: pan-y; -webkit-user-select: none; user-select: none; -webkit-user-drag: none; -webkit-touch-callout: none; }
 .pack3d [hidden] { display: none !important; }
-.pack-float { position: absolute; inset: 0; transform-style: preserve-3d; }
-.pack-inner { position: absolute; inset: 0; transform-style: preserve-3d; will-change: transform; }
+/* .pack-float is 10% larger than the pack on every side, so nothing is clipped while a pack turns.
+   It carries the perspective and the bob/sway, and content-visibility lets the browser skip packs
+   that are off screen entirely: with eight 3D tube cards, that is what keeps cheap phones smooth. */
+.pack-float { position: absolute; inset: -10%; perspective: 1200px; /* = PERSPECTIVE in pack.js */ content-visibility: auto; pointer-events: none; }
+.pack-inner { position: absolute; inset: 8.3333%; transform-style: preserve-3d; will-change: transform; pointer-events: auto; }
 .pack-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
 .pack-face img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 1px rgba(0,0,0,.15)); user-select: none; -webkit-user-drag: none; pointer-events: none; }
 .pack-sheen { position: absolute; inset: 0; -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,.38) 45%, transparent 58%); background-size: 260% 100%; background-position: var(--sheen, 50%) 0; mix-blend-mode: soft-light; pointer-events: none; }
@@ -251,7 +254,7 @@ h3 { font-family: var(--display); font-weight: 700; font-size: var(--fs-h3); lin
 }
 .tube-cap { position: absolute; width: calc(var(--tr) * 2); height: calc(var(--tr) * 2); left: calc(var(--tr) * -1); top: calc(var(--tr) * -1); border-radius: 50%; }
 /* the copper lid, drawn as one SVG over the tube by pack.js (drawLid) */
-.lid2d { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; shape-rendering: geometricPrecision; }
+.lid2d { position: absolute; inset: 8.3333%; overflow: visible; pointer-events: none; shape-rendering: geometricPrecision; }
 .tube-bottom { width: calc(var(--tr) * 2); height: calc(var(--tr) * 2); left: calc(var(--tr) * -1); top: calc(var(--tr) * -1);
   transform: translateY(calc(var(--th) / 2)) rotateX(-90deg); background: radial-gradient(closest-side, #6a2f10, #3e1806 86%, #c9773a 94%, #3e1806); }
 .pack-shadow { position: absolute; left: 14%; right: 14%; bottom: -7%; height: 9%; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,.33), transparent); filter: blur(4px); transform: translateZ(-1px); }
@@ -693,8 +696,10 @@ h3 { font-family: var(--display); font-weight: 700; font-size: var(--fs-h3); lin
 /* ---------- bird ---------- */
 .bird-layer { position: fixed; inset: 0; z-index: 90; pointer-events: none; overflow: hidden; }
 .bird-page-layer { position: absolute; left: 0; top: 0; width: 100%; height: 0; z-index: 90; pointer-events: none; }
-.bird { position: absolute; left: 0; top: 0; width: var(--bird-w, 120px); height: var(--bird-w, 120px); pointer-events: auto; cursor: pointer; will-change: transform; -webkit-tap-highlight-color: transparent; }
-.bird svg { width: 100%; height: 100%; overflow: visible; }
+.bird { position: absolute; left: 0; top: 0; width: var(--bird-w, 120px); height: var(--bird-w, 120px); pointer-events: auto; cursor: pointer; will-change: transform; transition: opacity .3s; -webkit-tap-highlight-color: transparent; }
+.bird svg { width: 100%; height: 100%; overflow: visible; transform-origin: 53% 90%; /* the feet (ANCHOR in bird.js) */ animation: bird-breathe 2.86s ease-in-out infinite alternate; will-change: transform; }
+@keyframes bird-breathe { from { transform: scale(.988); } to { transform: scale(1.012); } }
+@media (prefers-reduced-motion: reduce) { .bird svg { animation: none; } }
 .bird .feather { stroke: #fff; stroke-width: 1.4; stroke-linejoin: round; }
 .bird .rib { stroke: #fff; stroke-width: .8; stroke-linecap: round; fill: none; opacity: .9; }
 .bird-piece { position: absolute; left: 0; top: 0; width: 10px; height: 8px; border-radius: 50% 50% 45% 45%; background: #8a5a2b; pointer-events: none; }
@@ -739,9 +744,7 @@ h3 { font-family: var(--display); font-weight: 700; font-size: var(--fs-h3); lin
   :root { --nav-h: 58px; }
   .nav { padding-left: 16px; gap: 8px; }
   .nav-logo img { width: 112px; }
-  /* phones: no room beside the logo, so the branch hangs just below the bar on a little twig */
-  .nav-branch { left: 22px; bottom: -50px; width: 96px; height: 32px; }
-  .nav-branch .twig { display: inline; }
+  .nav-branch { display: none; }   /* phones: the bird rides with the page instead of waiting on this branch */
   .cart-label { display: none; }
   .cart-btn { padding: 0 6px 0 12px; }
   .hero { padding-top: calc(var(--nav-h) + 34px + env(safe-area-inset-top, 0px)); }
@@ -1668,6 +1671,8 @@ const Util = (() => {
   const rand = (a, b) => a + Math.random() * (b - a);
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const coarse = window.matchMedia('(hover: none), (pointer: coarse)');
+  // phones and touch tablets: the bird rides along with the page there instead of flying around
+  const phone = window.matchMedia('(hover: none) and (pointer: coarse), (max-width: 820px)');
 
   // €5,95 (Dutch formatting, comma decimals)
   const money = cents => '€' + (cents / 100).toFixed(2).replace('.', ',');
@@ -1765,7 +1770,7 @@ const Util = (() => {
   });
   const isOpen = el => stack.some(s => s.el === el);
 
-  return { $, $$, clamp, lerp, rand, reduced, coarse, money, priceHTML, store, inkFor, contrast, mix, split, toast, open, close, isOpen };
+  return { $, $$, clamp, lerp, rand, reduced, coarse, phone, money, priceHTML, store, inkFor, contrast, mix, split, toast, open, close, isOpen };
 })();
 
 /* ---- audio.js ---- */
@@ -1875,7 +1880,7 @@ const Sound = (() => {
    It perches on elements, follows the cursor with its head, flies between sections,
    reacts to the shop and has idle behaviours. All motion is computed per frame here. */
 const Bird = (() => {
-  const { clamp, lerp, rand, reduced } = Util;
+  const { clamp, lerp, rand, reduced, phone } = Util;
   const NS = 'http://www.w3.org/2000/svg';
   const ANCHOR = { x: 106, y: 180 };            // where the feet grip, in SVG units
   const NECK = { x: 112, y: 82 }, SHOULDER = { x: 100, y: 94 }, TAIL = { x: 90, y: 164 };
@@ -1978,12 +1983,14 @@ const Bird = (() => {
     // phones: tilt the head with the gyroscope where allowed; touch position otherwise
     addEventListener('deviceorientation', e => {
       if (e.gamma == null) return;
-      lookAt = { x: innerWidth / 2 + clamp(e.gamma, -40, 40) / 40 * innerWidth * .6, y: innerHeight / 2 + clamp((e.beta || 45) - 45, -40, 40) / 40 * innerHeight * .6 };
+      const next = { x: innerWidth / 2 + clamp(e.gamma, -40, 40) / 40 * innerWidth * .6, y: innerHeight / 2 + clamp((e.beta || 45) - 45, -40, 40) / 40 * innerHeight * .6 };
+      // ignore the sensor's jitter: every tiny head move repaints the bird and costs cheap phones frames
+      if (Math.hypot(next.x - lookAt.x, next.y - lookAt.y) > 24) lookAt = next;
     }, { passive: true });
     requestAnimationFrame(tick);
   }
   let sizeMul = 1, sizeT = 124;
-  function setSize() { sizeT = (innerWidth < 700 ? 84 : innerWidth < 1100 ? 104 : 124) * sizeMul; if (S.size === 120) { S.size = sizeT; el.style.setProperty('--bird-w', sizeT + 'px'); } }
+  function setSize() { sizeT = (innerWidth < 700 ? 66 : innerWidth < 1100 ? 104 : 124) * sizeMul; if (S.size === 120) { S.size = sizeT; el.style.setProperty('--bird-w', sizeT + 'px'); } }
   // inside panels (cart, product sheet, checkout) the bird shrinks so it fits beside the title
   function setMini(on) { sizeMul = typeof on === 'number' ? on : on ? .62 : 1; setSize(); }
   function setAccent(c) {
@@ -2049,9 +2056,8 @@ const Bird = (() => {
     }
     // size eases toward its target (smaller inside panels)
     if (Math.abs(sizeT - S.size) > .3) { S.size += (sizeT - S.size) * k(dt, 8); el.style.setProperty('--bird-w', S.size.toFixed(1) + 'px'); }
-    // breathing
-    const breathe = Math.sin(t * 2.2) * .012;
-    S.scale = 1 + breathe;
+    // breathing is a CSS animation on the SVG (.bird svg in styles.css): the graphics chip runs it,
+    // so a bird sitting still costs nothing per frame
 
     // springs
     const kk = k(dt, 12);
@@ -2079,7 +2085,7 @@ const Bird = (() => {
   let pageLayer = null, fixedLayer = null;
   function render() {
     const s = S.size / 200, ax = ANCHOR.x * s, ay = ANCHOR.y * s;
-    const anchored = mode === 'perched' && !!perch && !perch.nav && !perch.fixed;
+    const anchored = pageFlight || (mode === 'perched' && !!perch && !perch.nav && !perch.fixed);
     if (anchored !== el._anch) { (anchored ? pageLayer : fixedLayer).appendChild(el); el._anch = anchored; el._tf = null; }
     const ox = anchored ? scrollX : 0, oy = anchored ? scrollY : 0;
     const tf = `translate3d(${(S.x + ox - ax).toFixed(1)}px, ${(S.y + oy - ay - S.hop).toFixed(1)}px, 0) rotate(${S.tilt.toFixed(1)}deg) scale(${(S.flip * S.scale).toFixed(3)}, ${(S.scale * S.squash).toFixed(3)})`;
@@ -2104,7 +2110,7 @@ const Bird = (() => {
     setA(parts.near, 'transform', `translate(${SHOULDER.x} ${SHOULDER.y}) rotate(${flapA.toFixed(1)}) scale(1 ${flapS.toFixed(2)})`);
     setA(parts.far, 'transform', `translate(${SHOULDER.x + 8} ${SHOULDER.y - 4}) rotate(${(flapA - 12).toFixed(1)}) scale(.9 ${(flapS * .9).toFixed(2)})`);
     R(parts.wing, S.sleep * -6, SHOULDER.x, SHOULDER.y);
-    setA(parts.feet, 'transform', `translate(0 ${(1 - S.feet) * -6}) scale(1 ${(.4 + .6 * S.feet).toFixed(2)})`);
+    setA(parts.feet, 'transform', `translate(0 ${((1 - S.feet) * -6).toFixed(1)}) scale(1 ${(.4 + .6 * S.feet).toFixed(2)})`);   // rounded: unrounded, it changed (and repainted) every frame
     const fl = S.gold > .01 ? `drop-shadow(0 0 ${(12 * S.gold).toFixed(1)}px rgba(246,214,65,${S.gold.toFixed(2)}))` : '';
     if (fl !== el._fl) { el.style.filter = fl; el._fl = fl; }
     Bubble.follow(S.x, S.y - S.size * .95);
@@ -2128,9 +2134,13 @@ const Bird = (() => {
   async function happy(ms = 900) { T.happy = 1; T.lid = 1; await wait(ms); T.happy = 0; T.lid = .2; }
 
   /* ---------------- flight ---------------- */
-  let flightId = 0;
+  let flightId = 0, pageFlight = false;
+  // opts.page: fly in page coordinates, in the layer that scrolls with the page (phones). The phone
+  // scrolls that layer itself, so a scroll during the flight can never make the bird lag or jump.
   function flyTo(getTarget, opts = {}) {
     const id = ++flightId;
+    pageFlight = false;
+    if (opts.page && !reduced.matches && !opts.instant) return flyInPage(id, getTarget, opts);
     const start = anchorScreen();
     if (reduced.matches || opts.instant) {
       return new Promise(res => {
@@ -2172,6 +2182,44 @@ const Bird = (() => {
     });
   }
 
+  function flyInPage(id, getTarget, opts) {
+    const doc = v => v && { x: v.x + scrollX, y: v.y + scrollY };
+    let e0 = doc(getTarget()); if (!e0) return Promise.resolve('no target');
+    // start where the bird is; if that is far off screen, come in from just above the screen
+    let start = { x: S.x + scrollX, y: S.y + scrollY };
+    if (S.y < -S.size || S.y > innerHeight + S.size) start = { x: e0.x < innerWidth / 2 ? innerWidth + 40 : -40, y: scrollY - 40 };
+    mode = 'flying'; S.flying = true; S.flapSpeed = 26; T.happy = 0; T.lid = .1; pageFlight = true;
+    S.x = start.x - scrollX; S.y = start.y - scrollY;
+    const dist = Math.hypot(e0.x - start.x, e0.y - start.y);
+    const dur = clamp(dist / 700, .6, 1.4) * (opts.speed || 1), lift = clamp(dist * .3, 40, 160);
+    const t0 = performance.now();
+    return new Promise(res => {
+      const step = now => {
+        if (id !== flightId) { pageFlight = false; return res('cancelled'); }
+        const p = clamp((now - t0) / (dur * 1000), 0, 1);
+        const e = doc(getTarget()) || e0; e0 = e;
+        const ep = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        const cx = (start.x + e.x) / 2, cy = Math.min(start.y, e.y) - lift;
+        const nx = (1 - ep) * (1 - ep) * start.x + 2 * (1 - ep) * ep * cx + ep * ep * e.x;
+        const ny = (1 - ep) * (1 - ep) * start.y + 2 * (1 - ep) * ep * cy + ep * ep * e.y;
+        const vx = nx - (S.x + scrollX), vy = ny - (S.y + scrollY);
+        if (Math.abs(vx) > .6) S.flip = vx > 0 ? 1 : -1;
+        S.tilt = clamp(Math.atan2(vy, Math.abs(vx) + 4) * 180 / Math.PI * .45, -28, 28) * S.flip;
+        S.x = nx - scrollX; S.y = ny - scrollY;               // render() adds the scroll back: page coordinates
+        S.flapSpeed = p > .82 ? 12 : 26;
+        T.headRot = clamp(-S.tilt * S.flip * .5, -20, 20);
+        if (p < 1) requestAnimationFrame(step);
+        else {
+          S.flying = false; S.squash = .78; S.hop = 0; T.lid = .2; pageFlight = false;
+          mode = opts.after || 'perched';
+          Sound.chirp(2); setTimeout(() => hopOnce(6), 160);
+          res('landed');
+        }
+      };
+      requestAnimationFrame(step);
+    });
+  }
+
   let trackFn = null;
   function track(fn) { if (busy) return; flightId++; trackFn = fn; mode = 'track'; perch = null; S.flying = true; S.flapSpeed = 20; }
   function untrack() { if (mode !== 'track') return; trackFn = null; mode = 'idle'; S.flying = false; }
@@ -2182,9 +2230,11 @@ const Bird = (() => {
     if (perch && perch.el === p.el && mode !== 'flying') return;
     perch = p;
     if (busy && !opts.force) return;
-    return flyTo(() => perchPoint(p), opts);
+    return flyTo(() => perchPoint(p), { page: phone.matches && !p.fixed && !p.nav, ...opts });
   }
   const currentPerch = () => perch;
+  // phones: step aside while a panel (cart, product, checkout) is open, and come back after
+  function hideFor(on) { S.alpha = on ? 0 : 1; if (el) el.style.pointerEvents = on ? 'none' : ''; }
 
   /* ---------------- reactions ---------------- */
   // pick up a pecan, crack it with the beak, toss the pieces
@@ -2225,7 +2275,7 @@ const Bird = (() => {
   // carry a pack from a card to the cart
   let delivering = false;
   async function deliver(fromEl, imgSrc, toEl) {
-    if (delivering || reduced.matches) { flyClone(fromEl, imgSrc, toEl); return; }
+    if (delivering || reduced.matches || phone.matches) { flyClone(fromEl, imgSrc, toEl); return; }
     delivering = true; busy = true;
     const back = perch;
     const r0 = () => { const r = fromEl.getBoundingClientRect(); return { x: r.left + r.width * .5, y: r.top + r.height * .3 }; };
@@ -2314,7 +2364,7 @@ const Bird = (() => {
   }
 
   return {
-    build, setMini, perchOn, currentPerch, flyTo, track, untrack, hop, crack, celebrate, say, sleep, toss, showBeak, wave, deliver, setAccent, burst, happy,
+    build, setMini, perchOn, hideFor, currentPerch, flyTo, track, untrack, hop, crack, celebrate, say, sleep, toss, showBeak, wave, deliver, setAccent, burst, happy,
     get busy() { return busy || delivering; }, set busy(v) { busy = v; },
     get mode() { return mode; }, set mode(v) { mode = v; }, get state() { return S; },
   };
@@ -2329,7 +2379,7 @@ const Bubble = (() => {
     if (window.gsap) gsap.fromTo(el, { scale: .6, opacity: 0 }, { scale: 1, opacity: 1, duration: .5, ease: 'back.out(2)' });
     clearTimeout(timer); timer = setTimeout(hide, ms);
   }
-  function hide() { if (!el) return; visible = false; if (window.gsap) gsap.to(el, { opacity: 0, duration: .3, onComplete: () => (el.hidden = true) }); else el.hidden = true; }
+  function hide() { if (!el || !visible) return; visible = false; if (window.gsap) gsap.to(el, { opacity: 0, duration: .3, onComplete: () => (el.hidden = true) }); else el.hidden = true; }
   function follow(x, y) {
     if (!visible || !el) return;
     const w = el.offsetWidth, h = el.offsetHeight;
@@ -2348,8 +2398,8 @@ const Bubble = (() => {
      loaded as a separate file), with a thin rim at the bottom.
      The copper slip lid is NOT made of 3D strips: dozens of extra 3D layers per
      tube made the browser drop frames. It is round and plain, so it is drawn as
-     one SVG over the top of the tube (.lid2d): each frame the lid's top and
-     bottom circles are projected with the same tilt, sway, bob and perspective
+     one SVG over the top of the tube (.lid2d): the lid's top and
+     bottom circles are projected with the same tilt and perspective
      as the tube, and the outline between them is filled with copper.
      Light works the same way: a cylinder is lit the same at any turn, so the
      shading is a smooth gradient in that SVG, filling the tube's exact projected
@@ -2394,34 +2444,35 @@ function createPack(host, flavour, opts = {}) {
         ${Array.from({ length: TUBE_SIDES }, (_, i) => `<div class="tube-side" style="--i:${i}"></div>`).join('')}
         <div class="tube-cap tube-bottom"></div>
       </div>
-    </div></div>
-    <svg class="lid2d" hidden aria-hidden="true" focusable="false">
-      <defs>
-        <linearGradient id="lidV${lidId}" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#4a1f08"/><stop offset=".12" stop-color="#f3b67e"/><stop offset=".3" stop-color="#d98a4a"/>
-          <stop offset=".55" stop-color="#c06f33"/><stop offset=".78" stop-color="#a85a24"/><stop offset="1" stop-color="#8a4519"/>
-        </linearGradient>
-        <linearGradient id="lidH${lidId}" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="#140802" stop-opacity=".6"/><stop offset=".1" stop-color="#140802" stop-opacity=".2"/>
-          <stop offset=".26" stop-color="#fff0dc" stop-opacity=".26"/><stop offset=".4" stop-color="#fff0dc" stop-opacity="0"/>
-          <stop offset=".62" stop-color="#140802" stop-opacity="0"/><stop offset=".86" stop-color="#140802" stop-opacity=".28"/>
-          <stop offset="1" stop-color="#140802" stop-opacity=".62"/>
-        </linearGradient>
-        <radialGradient id="lidT${lidId}" cx=".42" cy=".4" r=".7">
-          <stop offset="0" stop-color="#eaa66c"/><stop offset=".6" stop-color="#bd6c30"/><stop offset="1" stop-color="#8f4a1d"/>
-        </radialGradient>
-        <linearGradient id="tubeD${lidId}" x1="0" y1="0" x2="1" y2="0">${tubeLightStops(tubeDark, '#160902')}</linearGradient>
-        <linearGradient id="tubeL${lidId}" x1="0" y1="0" x2="1" y2="0">${tubeLightStops(tubeShine, '#fff6e6')}</linearGradient>
-      </defs>
-      <path class="tube-light" fill="url(#tubeD${lidId})"/>
-      <path class="tube-light" fill="url(#tubeL${lidId})"/>
-      <path class="lid-band" fill="url(#lidV${lidId})"/>
-      <path class="lid-band" fill="url(#lidH${lidId})"/>
-      <path class="lid-top-edge" fill="none" stroke="#f8c896" stroke-width="1.6" stroke-linecap="round"/>
-      <path class="lid-low-edge" fill="none" stroke="#e7a56b" stroke-width="1.4" stroke-linecap="round"/>
-      <path class="lid-seam" fill="none" stroke="#3a1606" stroke-width="1.3" stroke-linecap="round"/>
-      <path class="lid-cap" fill="url(#lidT${lidId})" stroke="#f6c290" stroke-width="1.4"/>
-    </svg>
+    </div>
+      <svg class="lid2d" hidden aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="lidV${lidId}" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#4a1f08"/><stop offset=".12" stop-color="#f3b67e"/><stop offset=".3" stop-color="#d98a4a"/>
+            <stop offset=".55" stop-color="#c06f33"/><stop offset=".78" stop-color="#a85a24"/><stop offset="1" stop-color="#8a4519"/>
+          </linearGradient>
+          <linearGradient id="lidH${lidId}" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#140802" stop-opacity=".6"/><stop offset=".1" stop-color="#140802" stop-opacity=".2"/>
+            <stop offset=".26" stop-color="#fff0dc" stop-opacity=".26"/><stop offset=".4" stop-color="#fff0dc" stop-opacity="0"/>
+            <stop offset=".62" stop-color="#140802" stop-opacity="0"/><stop offset=".86" stop-color="#140802" stop-opacity=".28"/>
+            <stop offset="1" stop-color="#140802" stop-opacity=".62"/>
+          </linearGradient>
+          <radialGradient id="lidT${lidId}" cx=".42" cy=".4" r=".7">
+            <stop offset="0" stop-color="#eaa66c"/><stop offset=".6" stop-color="#bd6c30"/><stop offset="1" stop-color="#8f4a1d"/>
+          </radialGradient>
+          <linearGradient id="tubeD${lidId}" x1="0" y1="0" x2="1" y2="0">${tubeLightStops(tubeDark, '#160902')}</linearGradient>
+          <linearGradient id="tubeL${lidId}" x1="0" y1="0" x2="1" y2="0">${tubeLightStops(tubeShine, '#fff6e6')}</linearGradient>
+        </defs>
+        <path class="tube-light" fill="url(#tubeD${lidId})"/>
+        <path class="tube-light" fill="url(#tubeL${lidId})"/>
+        <path class="lid-band" fill="url(#lidV${lidId})"/>
+        <path class="lid-band" fill="url(#lidH${lidId})"/>
+        <path class="lid-top-edge" fill="none" stroke="#f8c896" stroke-width="1.6" stroke-linecap="round"/>
+        <path class="lid-low-edge" fill="none" stroke="#e7a56b" stroke-width="1.4" stroke-linecap="round"/>
+        <path class="lid-seam" fill="none" stroke="#3a1606" stroke-width="1.3" stroke-linecap="round"/>
+        <path class="lid-cap" fill="url(#lidT${lidId})" stroke="#f6c290" stroke-width="1.4"/>
+      </svg>
+    </div>
     ${opts.shadow === false ? '' : '<div class="pack-shadow"></div>'}`;
   const inner = host.querySelector('.pack-inner'), float = host.querySelector('.pack-float');
   const img = host.querySelector('.pack-front img'), sheen = host.querySelector('.pack-sheen');
@@ -2457,7 +2508,8 @@ function createPack(host, flavour, opts = {}) {
 
   // Where a point of the pack (x, y, z from its centre; y down, z towards you) lands on screen, using the
   // same transforms as the tube: rotateZ (sway), then rotateX (tilt), then the bob, then perspective.
-  // The lid is round, so the turn (rotateY) does not change it.
+  // The lid is round, so the turn (rotateY) does not change it. (The frame loop passes sway = bob = 0:
+  // those move the whole wrapper, SVG included.)
   function project(x, y, z, cX, sX, cZ, sZ, bob) {
     const x1 = x * cZ - y * sZ, y1 = x * sZ + y * cZ;
     const y2 = y1 * cX - z * sX + bob, z2 = y1 * sX + z * cX;
@@ -2582,14 +2634,13 @@ function createPack(host, flavour, opts = {}) {
     st.ry += (st.try + st.hoverX * 26 - st.ry) * ease(.12);
     st.rx += (st.trx - st.hoverY * 14 - st.rx) * ease(.12);
     const bob = st.idle && !Util.reduced.matches ? Math.sin(t / 900 + (opts.phase || 0)) : 0;
-    const ft = `translateY(${(bob * (opts.bob ?? 8)).toFixed(1)}px)`;
-    // spin about the pack's own axis first (rotateY), then sway and tilt in view space
-    const it = `rotateX(${st.rx.toFixed(1)}deg) rotateZ(${(bob * (opts.sway ?? 1.2)).toFixed(1)}deg) rotateY(${st.ry.toFixed(1)}deg)`;
+    // bob and sway move the whole flat wrapper (cheap, and the lid needs no redraw for them);
+    // the 3D part only tilts (rotateX) and turns about its own axis (rotateY)
+    const ft = `translateY(${(bob * (opts.bob ?? 8)).toFixed(1)}px) rotate(${(bob * (opts.sway ?? 1.2)).toFixed(1)}deg)`;
+    const it = `rotateX(${st.rx.toFixed(1)}deg) rotateY(${st.ry.toFixed(1)}deg)`;
     if (ft !== lastF) { float.style.transform = ft; lastF = ft; }
-    if (fmt === 'tube') {
-      // the same rounded values as the CSS transforms above, so the lid sits exactly on the tube
-      drawLid(+st.rx.toFixed(1), +(bob * (opts.sway ?? 1.2)).toFixed(1), +(bob * (opts.bob ?? 8)).toFixed(1));
-    }
+    // the same rounded tilt as the CSS transform, so the lid sits exactly on the tube; redrawn only when it changes
+    if (fmt === 'tube') drawLid(+st.rx.toFixed(1), 0, 0);
     if (it !== lastI) {
       inner.style.transform = it; lastI = it;
       if (fmt !== 'tube') {
@@ -2764,7 +2815,7 @@ const Origin = (() => {
   let sc = 1, ox = 0, oy = 0;
   function resize() {
     const r = cv.getBoundingClientRect(); if (!r.width) return;
-    dpr = Math.min(1.5, devicePixelRatio || 1); W = r.width; H = r.height;
+    dpr = Util.phone.matches ? 1 : Math.min(1.5, devicePixelRatio || 1); W = r.width; H = r.height;
     cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
     sc = Math.max(W / 800, H / 600); ox = (W - 800 * sc) / 2; oy = (H - 600 * sc) / 2;
     // hills and trees never change: draw them once
@@ -2897,12 +2948,13 @@ const Origin = (() => {
     return { x: m.a * pt.x + m.c * pt.y + m.e, y: m.b * pt.x + m.d * pt.y + m.f };
   }
 
+  let pendingP = 0, drawQueued = false;
   function init() {
     buildOrchard(); buildMap(); render(0);
     if (!window.ScrollTrigger) { document.querySelectorAll('.season').forEach(s => s.classList.add('on')); return; }
     ScrollTrigger.create({
       trigger: '.origin', start: 'top top', end: () => '+=' + innerHeight * 4.2, pin: '.origin-pin', scrub: true,
-      onUpdate: self => render(self.progress * 5),
+      onUpdate: self => { pendingP = self.progress * 5; if (!drawQueued) { drawQueued = true; requestAnimationFrame(() => { drawQueued = false; render(pendingP); }); } },
     });
   }
   return { init, routePoint, get onRoute() { return active; }, get progress() { return progress; } };
@@ -3849,6 +3901,9 @@ const App = (() => {
     { sec: '#origin', sel: '.origin-stage', fx: .84, fy: 0, fixed: true },   // pinned while you scroll
     { sec: '#nut', sel: '.quiz-stage', fx: .8, fy: 0 },
     { sec: '#shop', sel: '#shopTitle, .bundles-head .h2', line: true },
+    // phone: true = only on phones, where the bird sits on boxes instead of headings
+    { sec: '#shop', sel: '#productGrid .card, .bundle', fx: .22, fy: 0, phone: true },
+    { sec: '#packaging', sel: '.pk-card', fx: .8, fy: 0, phone: true },
     { sec: '#pairing', sel: '#pairTitle', line: true },
     { sec: '#pairing', sel: '#pairStage', fx: .82, fy: 0 },
     { sec: '#bird', sel: '.fact', fx: .955, fy: 0, dy: 2 },
@@ -3881,7 +3936,7 @@ const App = (() => {
     return best;
   }
   function candidates(sec) {
-    return PERCHES.filter(c => c.sec === sec).flatMap(cfg => $$(cfg.sel).filter(el => el.offsetParent !== null)
+    return PERCHES.filter(c => c.sec === sec && (!c.phone || Util.phone.matches)).flatMap(cfg => $$(cfg.sel).filter(el => el.offsetParent !== null)
       .map(el => ({ el, fx: cfg.fx, fy: cfg.fy, dy: cfg.dy, fixed: cfg.fixed, get: cfg.line ? () => lineEnd(el) : null })));
   }
   function bestPerch() {
@@ -3905,9 +3960,29 @@ const App = (() => {
     const now = performance.now(), dt = Math.max(16, now - lastT);
     speed = speed * .6 + Math.abs(scrollY - lastY) / dt * 1000 * .4;
     lastY = scrollY; lastT = now; lastScroll = now;
+    if (Util.phone.matches) Bubble.hide();      // phones: a speech bubble would trail behind a scrolling page
   }, { passive: true });
+  // Phones: the bird only sits on boxes in the page (never on headings, never on the navbar branch) and
+  // scrolls along with them. When you stop scrolling in a new section it flies over, in page coordinates.
+  // No route-following on the pinned map: that part of the page is moved by script, so it would lag.
+  const PHONE_QUIET_MS = 700;
+  const phonePerches = sec => candidates(sec).filter(p => !p.fixed && !p.get);
+  function phonePerchManager() {
+    if (Bird.busy || Bird.mode === 'flying' || Bird.mode === 'busy') return;
+    if (Bird.mode === 'track') Bird.untrack();
+    if (performance.now() - lastScroll < PHONE_QUIET_MS) return;          // never move while you scroll
+    const cur = Bird.currentPerch(), sec = activeSection(); if (!sec) return;
+    const inView = pt => pt.y > navH() + 40 && pt.y < innerHeight - 20 && pt.x > 20 && pt.x < innerWidth - 20;
+    if (cur && cur.el && cur.el.isConnected && !cur.nav && !cur.fixed && inView(pointOf(cur))) return;   // still visible: stay
+    const c = phonePerches(sec).map(p => ({ p, pt: pointOf(p) })).filter(o => inView(o.pt));
+    if (!c.length) return;                                                 // nothing to sit on here: stay where it was
+    c.sort((a, b) => Math.abs(a.pt.y - innerHeight * .4) - Math.abs(b.pt.y - innerHeight * .4));
+    Bird.setMini(1); Bird.perchOn(c[0].p);
+  }
   function perchManager() {
-    if (['#checkout', '#product', '#cart', '#legal'].some(s => Util.isOpen($(s)))) return;
+    const panel = ['#checkout', '#product', '#cart', '#legal'].some(s => Util.isOpen($(s)));
+    if (Util.phone.matches) { Bird.hideFor(panel); if (!panel) phonePerchManager(); return; }
+    if (panel) return;
     const now = performance.now(), quiet = now - lastScroll > IDLE_MS, fast = now - lastScroll < 250 && speed > FAST_PX_S;
     if (Origin.onRoute && !reduced.matches && !fast) { if (Bird.mode !== 'track' && !Bird.busy) { Bird.setMini(1); Bird.track(Origin.routePoint); } return; }
     if (Bird.mode === 'track') Bird.untrack();
@@ -4175,11 +4250,11 @@ const App = (() => {
   }
   // perch at the end of a panel title (cart, product sheet, checkout)
   function birdTo(el) {
-    if (!el) return;
+    if (!el || Util.phone.matches) return;          // phones: the bird steps aside while a panel is open
     Bird.setMini(true);
     setTimeout(() => Bird.perchOn({ el, fixed: true, get: () => { const r = el.getBoundingClientRect(); const t = el.firstChild && el.firstChild.nodeType === 3 ? (() => { const rg = document.createRange(); rg.selectNodeContents(el); return rg.getBoundingClientRect(); })() : r; return { x: Math.min(t.right + Bird.state.size * .45, innerWidth - Bird.state.size * .5), y: t.top >= 0 ? Math.max(t.bottom - 4, Bird.state.size * .92 + 8) : t.bottom - 4 }; } }, { force: true }), 380);
   }
-  function birdHome() { setTimeout(() => { const b = bestPerch(); if (b) { Bird.setMini(1); Bird.perchOn(b, { force: true }); } else goHome(); }, 300); }
+  function birdHome() { if (Util.phone.matches) return; setTimeout(() => { const b = bestPerch(); if (b) { Bird.setMini(1); Bird.perchOn(b, { force: true }); } else goHome(); }, 300); }
   return { init, bestPerch, birdTo, birdHome };
 })();
 

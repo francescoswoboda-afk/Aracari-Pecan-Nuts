@@ -7,6 +7,8 @@ const Util = (() => {
   const rand = (a, b) => a + Math.random() * (b - a);
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const coarse = window.matchMedia('(hover: none), (pointer: coarse)');
+  // phones and touch tablets: the bird rides along with the page there instead of flying around
+  const phone = window.matchMedia('(hover: none) and (pointer: coarse), (max-width: 820px)');
 
   // €5,95 (Dutch formatting, comma decimals)
   const money = cents => '€' + (cents / 100).toFixed(2).replace('.', ',');
@@ -104,5 +106,5 @@ const Util = (() => {
   });
   const isOpen = el => stack.some(s => s.el === el);
 
-  return { $, $$, clamp, lerp, rand, reduced, coarse, money, priceHTML, store, inkFor, contrast, mix, split, toast, open, close, isOpen };
+  return { $, $$, clamp, lerp, rand, reduced, coarse, phone, money, priceHTML, store, inkFor, contrast, mix, split, toast, open, close, isOpen };
 })();

@@ -11,6 +11,9 @@ const App = (() => {
     { sec: '#origin', sel: '.origin-stage', fx: .84, fy: 0, fixed: true },   // pinned while you scroll
     { sec: '#nut', sel: '.quiz-stage', fx: .8, fy: 0 },
     { sec: '#shop', sel: '#shopTitle, .bundles-head .h2', line: true },
+    // phone: true = only on phones, where the bird sits on boxes instead of headings
+    { sec: '#shop', sel: '#productGrid .card, .bundle', fx: .22, fy: 0, phone: true },
+    { sec: '#packaging', sel: '.pk-card', fx: .8, fy: 0, phone: true },
     { sec: '#pairing', sel: '#pairTitle', line: true },
     { sec: '#pairing', sel: '#pairStage', fx: .82, fy: 0 },
     { sec: '#bird', sel: '.fact', fx: .955, fy: 0, dy: 2 },
@@ -43,7 +46,7 @@ const App = (() => {
     return best;
   }
   function candidates(sec) {
-    return PERCHES.filter(c => c.sec === sec).flatMap(cfg => $$(cfg.sel).filter(el => el.offsetParent !== null)
+    return PERCHES.filter(c => c.sec === sec && (!c.phone || Util.phone.matches)).flatMap(cfg => $$(cfg.sel).filter(el => el.offsetParent !== null)
       .map(el => ({ el, fx: cfg.fx, fy: cfg.fy, dy: cfg.dy, fixed: cfg.fixed, get: cfg.line ? () => lineEnd(el) : null })));
   }
   function bestPerch() {
@@ -67,9 +70,29 @@ const App = (() => {
     const now = performance.now(), dt = Math.max(16, now - lastT);
     speed = speed * .6 + Math.abs(scrollY - lastY) / dt * 1000 * .4;
     lastY = scrollY; lastT = now; lastScroll = now;
+    if (Util.phone.matches) Bubble.hide();      // phones: a speech bubble would trail behind a scrolling page
   }, { passive: true });
+  // Phones: the bird only sits on boxes in the page (never on headings, never on the navbar branch) and
+  // scrolls along with them. When you stop scrolling in a new section it flies over, in page coordinates.
+  // No route-following on the pinned map: that part of the page is moved by script, so it would lag.
+  const PHONE_QUIET_MS = 700;
+  const phonePerches = sec => candidates(sec).filter(p => !p.fixed && !p.get);
+  function phonePerchManager() {
+    if (Bird.busy || Bird.mode === 'flying' || Bird.mode === 'busy') return;
+    if (Bird.mode === 'track') Bird.untrack();
+    if (performance.now() - lastScroll < PHONE_QUIET_MS) return;          // never move while you scroll
+    const cur = Bird.currentPerch(), sec = activeSection(); if (!sec) return;
+    const inView = pt => pt.y > navH() + 40 && pt.y < innerHeight - 20 && pt.x > 20 && pt.x < innerWidth - 20;
+    if (cur && cur.el && cur.el.isConnected && !cur.nav && !cur.fixed && inView(pointOf(cur))) return;   // still visible: stay
+    const c = phonePerches(sec).map(p => ({ p, pt: pointOf(p) })).filter(o => inView(o.pt));
+    if (!c.length) return;                                                 // nothing to sit on here: stay where it was
+    c.sort((a, b) => Math.abs(a.pt.y - innerHeight * .4) - Math.abs(b.pt.y - innerHeight * .4));
+    Bird.setMini(1); Bird.perchOn(c[0].p);
+  }
   function perchManager() {
-    if (['#checkout', '#product', '#cart', '#legal'].some(s => Util.isOpen($(s)))) return;
+    const panel = ['#checkout', '#product', '#cart', '#legal'].some(s => Util.isOpen($(s)));
+    if (Util.phone.matches) { Bird.hideFor(panel); if (!panel) phonePerchManager(); return; }
+    if (panel) return;
     const now = performance.now(), quiet = now - lastScroll > IDLE_MS, fast = now - lastScroll < 250 && speed > FAST_PX_S;
     if (Origin.onRoute && !reduced.matches && !fast) { if (Bird.mode !== 'track' && !Bird.busy) { Bird.setMini(1); Bird.track(Origin.routePoint); } return; }
     if (Bird.mode === 'track') Bird.untrack();
@@ -337,11 +360,11 @@ const App = (() => {
   }
   // perch at the end of a panel title (cart, product sheet, checkout)
   function birdTo(el) {
-    if (!el) return;
+    if (!el || Util.phone.matches) return;          // phones: the bird steps aside while a panel is open
     Bird.setMini(true);
     setTimeout(() => Bird.perchOn({ el, fixed: true, get: () => { const r = el.getBoundingClientRect(); const t = el.firstChild && el.firstChild.nodeType === 3 ? (() => { const rg = document.createRange(); rg.selectNodeContents(el); return rg.getBoundingClientRect(); })() : r; return { x: Math.min(t.right + Bird.state.size * .45, innerWidth - Bird.state.size * .5), y: t.top >= 0 ? Math.max(t.bottom - 4, Bird.state.size * .92 + 8) : t.bottom - 4 }; } }, { force: true }), 380);
   }
-  function birdHome() { setTimeout(() => { const b = bestPerch(); if (b) { Bird.setMini(1); Bird.perchOn(b, { force: true }); } else goHome(); }, 300); }
+  function birdHome() { if (Util.phone.matches) return; setTimeout(() => { const b = bestPerch(); if (b) { Bird.setMini(1); Bird.perchOn(b, { force: true }); } else goHome(); }, 300); }
   return { init, bestPerch, birdTo, birdHome };
 })();
 

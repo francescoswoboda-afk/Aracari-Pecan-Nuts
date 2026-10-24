@@ -6,8 +6,8 @@
      loaded as a separate file), with a thin rim at the bottom.
      The copper slip lid is NOT made of 3D strips: dozens of extra 3D layers per
      tube made the browser drop frames. It is round and plain, so it is drawn as
-     one SVG over the top of the tube (.lid2d): each frame the lid's top and
-     bottom circles are projected with the same tilt, sway, bob and perspective
+     one SVG over the top of the tube (.lid2d): the lid's top and
+     bottom circles are projected with the same tilt and perspective
      as the tube, and the outline between them is filled with copper.
      Light works the same way: a cylinder is lit the same at any turn, so the
      shading is a smooth gradient in that SVG, filling the tube's exact projected
@@ -52,34 +52,35 @@ function createPack(host, flavour, opts = {}) {
         ${Array.from({ length: TUBE_SIDES }, (_, i) => `<div class="tube-side" style="--i:${i}"></div>`).join('')}
         <div class="tube-cap tube-bottom"></div>
       </div>
-    </div></div>
-    <svg class="lid2d" hidden aria-hidden="true" focusable="false">
-      <defs>
-        <linearGradient id="lidV${lidId}" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#4a1f08"/><stop offset=".12" stop-color="#f3b67e"/><stop offset=".3" stop-color="#d98a4a"/>
-          <stop offset=".55" stop-color="#c06f33"/><stop offset=".78" stop-color="#a85a24"/><stop offset="1" stop-color="#8a4519"/>
-        </linearGradient>
-        <linearGradient id="lidH${lidId}" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="#140802" stop-opacity=".6"/><stop offset=".1" stop-color="#140802" stop-opacity=".2"/>
-          <stop offset=".26" stop-color="#fff0dc" stop-opacity=".26"/><stop offset=".4" stop-color="#fff0dc" stop-opacity="0"/>
-          <stop offset=".62" stop-color="#140802" stop-opacity="0"/><stop offset=".86" stop-color="#140802" stop-opacity=".28"/>
-          <stop offset="1" stop-color="#140802" stop-opacity=".62"/>
-        </linearGradient>
-        <radialGradient id="lidT${lidId}" cx=".42" cy=".4" r=".7">
-          <stop offset="0" stop-color="#eaa66c"/><stop offset=".6" stop-color="#bd6c30"/><stop offset="1" stop-color="#8f4a1d"/>
-        </radialGradient>
-        <linearGradient id="tubeD${lidId}" x1="0" y1="0" x2="1" y2="0">${tubeLightStops(tubeDark, '#160902')}</linearGradient>
-        <linearGradient id="tubeL${lidId}" x1="0" y1="0" x2="1" y2="0">${tubeLightStops(tubeShine, '#fff6e6')}</linearGradient>
-      </defs>
-      <path class="tube-light" fill="url(#tubeD${lidId})"/>
-      <path class="tube-light" fill="url(#tubeL${lidId})"/>
-      <path class="lid-band" fill="url(#lidV${lidId})"/>
-      <path class="lid-band" fill="url(#lidH${lidId})"/>
-      <path class="lid-top-edge" fill="none" stroke="#f8c896" stroke-width="1.6" stroke-linecap="round"/>
-      <path class="lid-low-edge" fill="none" stroke="#e7a56b" stroke-width="1.4" stroke-linecap="round"/>
-      <path class="lid-seam" fill="none" stroke="#3a1606" stroke-width="1.3" stroke-linecap="round"/>
-      <path class="lid-cap" fill="url(#lidT${lidId})" stroke="#f6c290" stroke-width="1.4"/>
-    </svg>
+    </div>
+      <svg class="lid2d" hidden aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="lidV${lidId}" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#4a1f08"/><stop offset=".12" stop-color="#f3b67e"/><stop offset=".3" stop-color="#d98a4a"/>
+            <stop offset=".55" stop-color="#c06f33"/><stop offset=".78" stop-color="#a85a24"/><stop offset="1" stop-color="#8a4519"/>
+          </linearGradient>
+          <linearGradient id="lidH${lidId}" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#140802" stop-opacity=".6"/><stop offset=".1" stop-color="#140802" stop-opacity=".2"/>
+            <stop offset=".26" stop-color="#fff0dc" stop-opacity=".26"/><stop offset=".4" stop-color="#fff0dc" stop-opacity="0"/>
+            <stop offset=".62" stop-color="#140802" stop-opacity="0"/><stop offset=".86" stop-color="#140802" stop-opacity=".28"/>
+            <stop offset="1" stop-color="#140802" stop-opacity=".62"/>
+          </linearGradient>
+          <radialGradient id="lidT${lidId}" cx=".42" cy=".4" r=".7">
+            <stop offset="0" stop-color="#eaa66c"/><stop offset=".6" stop-color="#bd6c30"/><stop offset="1" stop-color="#8f4a1d"/>
+          </radialGradient>
+          <linearGradient id="tubeD${lidId}" x1="0" y1="0" x2="1" y2="0">${tubeLightStops(tubeDark, '#160902')}</linearGradient>
+          <linearGradient id="tubeL${lidId}" x1="0" y1="0" x2="1" y2="0">${tubeLightStops(tubeShine, '#fff6e6')}</linearGradient>
+        </defs>
+        <path class="tube-light" fill="url(#tubeD${lidId})"/>
+        <path class="tube-light" fill="url(#tubeL${lidId})"/>
+        <path class="lid-band" fill="url(#lidV${lidId})"/>
+        <path class="lid-band" fill="url(#lidH${lidId})"/>
+        <path class="lid-top-edge" fill="none" stroke="#f8c896" stroke-width="1.6" stroke-linecap="round"/>
+        <path class="lid-low-edge" fill="none" stroke="#e7a56b" stroke-width="1.4" stroke-linecap="round"/>
+        <path class="lid-seam" fill="none" stroke="#3a1606" stroke-width="1.3" stroke-linecap="round"/>
+        <path class="lid-cap" fill="url(#lidT${lidId})" stroke="#f6c290" stroke-width="1.4"/>
+      </svg>
+    </div>
     ${opts.shadow === false ? '' : '<div class="pack-shadow"></div>'}`;
   const inner = host.querySelector('.pack-inner'), float = host.querySelector('.pack-float');
   const img = host.querySelector('.pack-front img'), sheen = host.querySelector('.pack-sheen');
@@ -115,7 +116,8 @@ function createPack(host, flavour, opts = {}) {
 
   // Where a point of the pack (x, y, z from its centre; y down, z towards you) lands on screen, using the
   // same transforms as the tube: rotateZ (sway), then rotateX (tilt), then the bob, then perspective.
-  // The lid is round, so the turn (rotateY) does not change it.
+  // The lid is round, so the turn (rotateY) does not change it. (The frame loop passes sway = bob = 0:
+  // those move the whole wrapper, SVG included.)
   function project(x, y, z, cX, sX, cZ, sZ, bob) {
     const x1 = x * cZ - y * sZ, y1 = x * sZ + y * cZ;
     const y2 = y1 * cX - z * sX + bob, z2 = y1 * sX + z * cX;
@@ -240,14 +242,13 @@ function createPack(host, flavour, opts = {}) {
     st.ry += (st.try + st.hoverX * 26 - st.ry) * ease(.12);
     st.rx += (st.trx - st.hoverY * 14 - st.rx) * ease(.12);
     const bob = st.idle && !Util.reduced.matches ? Math.sin(t / 900 + (opts.phase || 0)) : 0;
-    const ft = `translateY(${(bob * (opts.bob ?? 8)).toFixed(1)}px)`;
-    // spin about the pack's own axis first (rotateY), then sway and tilt in view space
-    const it = `rotateX(${st.rx.toFixed(1)}deg) rotateZ(${(bob * (opts.sway ?? 1.2)).toFixed(1)}deg) rotateY(${st.ry.toFixed(1)}deg)`;
+    // bob and sway move the whole flat wrapper (cheap, and the lid needs no redraw for them);
+    // the 3D part only tilts (rotateX) and turns about its own axis (rotateY)
+    const ft = `translateY(${(bob * (opts.bob ?? 8)).toFixed(1)}px) rotate(${(bob * (opts.sway ?? 1.2)).toFixed(1)}deg)`;
+    const it = `rotateX(${st.rx.toFixed(1)}deg) rotateY(${st.ry.toFixed(1)}deg)`;
     if (ft !== lastF) { float.style.transform = ft; lastF = ft; }
-    if (fmt === 'tube') {
-      // the same rounded values as the CSS transforms above, so the lid sits exactly on the tube
-      drawLid(+st.rx.toFixed(1), +(bob * (opts.sway ?? 1.2)).toFixed(1), +(bob * (opts.bob ?? 8)).toFixed(1));
-    }
+    // the same rounded tilt as the CSS transform, so the lid sits exactly on the tube; redrawn only when it changes
+    if (fmt === 'tube') drawLid(+st.rx.toFixed(1), 0, 0);
     if (it !== lastI) {
       inner.style.transform = it; lastI = it;
       if (fmt !== 'tube') {
