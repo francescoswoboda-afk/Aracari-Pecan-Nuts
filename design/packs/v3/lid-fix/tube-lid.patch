@@ -1,0 +1,183 @@
+diff -ru a/src/js/pack.js b/src/js/pack.js
+--- a/src/js/pack.js	2026-10-29 09:53:20.784209598 +0100
++++ b/src/js/pack.js	2026-10-29 09:53:20.787187805 +0100
+@@ -13,10 +13,19 @@
+      shading is a smooth gradient in that SVG, filling the tube's exact projected
+      outline. The strips themselves never change while the tube turns, so the
+      GPU only moves them (no repaints): cheap enough for 120 Hz screens.
++   Lid v2 (Oct 2026): a real slip lid, as in the owner's 3D model: it rises above the label
++   (LID_UP) and slips over its top (LID_DOWN), with a rolled bead at the bottom edge, a domed cap
++   with a pressed ring, and cylinder-mapped copper shading.
+    All motion is time-based, so packs move at the same speed at any refresh rate. */
+ const TUBE_SIDES = 24;   // fewer strips = fewer 3D layers; the light no longer depends on them
+ const PERSPECTIVE = 1200;   // must match .pack3d { perspective } in styles.css
+-let lidCount = 0;           // unique ids for each pack's SVG gradients
++let lidCount = 0;
++// the slip lid, as fractions of the label height (the 3D model: Ø107.8 lid on a Ø105 tube, 15 mm tall, 6 mm over the label)
++const LID_UP = .045, LID_DOWN = .03, LID_R = 1.027, BEAD_R = 1.036, BEAD_H = .011, CAP_RING = .84;
++// copper seen across a cylinder, light from the front-left (left edge .. right edge)
++const COPPER = [[0,'#2e1105'],[.05,'#5a2a10'],[.14,'#a8622f'],[.24,'#f2bd8a'],[.29,'#ffe0bd'],[.34,'#e59c5f'],[.48,'#b8703c'],
++  [.64,'#93502a'],[.76,'#b5703f'],[.82,'#c98450'],[.9,'#7a3a17'],[1,'#2a0f04']];
++const copperStops = (k = 1) => COPPER.map(([o, c]) => `<stop offset="${o}" stop-color="${c}"${k < 1 ? ` stop-opacity="${k}"` : ''}/>`).join('');           // unique ids for each pack's SVG gradients
+ // copper band on the top of the label, under the lid, so nothing light can show at the lid's edge
+ const LID_METAL = 'linear-gradient(#4a1f08, #f3b67e 9%, #d98a4a 22%, #c06f33 45%, #a85a24 70%, #d08548 84%, #7a3712 94%, #3e1806)';
+ // light from the front-left: how dark and how bright a surface turned by a degrees (0 = facing you) looks
+@@ -55,30 +64,33 @@
+     </div>
+       <svg class="lid2d" hidden aria-hidden="true" focusable="false">
+         <defs>
++          <linearGradient id="lidC${lidId}" x1="0" y1="0" x2="1" y2="0">${copperStops()}</linearGradient>
+           <linearGradient id="lidV${lidId}" x1="0" y1="0" x2="0" y2="1">
+-            <stop offset="0" stop-color="#4a1f08"/><stop offset=".12" stop-color="#f3b67e"/><stop offset=".3" stop-color="#d98a4a"/>
+-            <stop offset=".55" stop-color="#c06f33"/><stop offset=".78" stop-color="#a85a24"/><stop offset="1" stop-color="#8a4519"/>
++            <stop offset="0" stop-color="#fff1df" stop-opacity=".35"/><stop offset=".1" stop-color="#fff1df" stop-opacity="0"/>
++            <stop offset=".75" stop-color="#1a0802" stop-opacity="0"/><stop offset="1" stop-color="#1a0802" stop-opacity=".35"/>
+           </linearGradient>
+-          <linearGradient id="lidH${lidId}" x1="0" y1="0" x2="1" y2="0">
+-            <stop offset="0" stop-color="#140802" stop-opacity=".6"/><stop offset=".1" stop-color="#140802" stop-opacity=".2"/>
+-            <stop offset=".26" stop-color="#fff0dc" stop-opacity=".26"/><stop offset=".4" stop-color="#fff0dc" stop-opacity="0"/>
+-            <stop offset=".62" stop-color="#140802" stop-opacity="0"/><stop offset=".86" stop-color="#140802" stop-opacity=".28"/>
+-            <stop offset="1" stop-color="#140802" stop-opacity=".62"/>
++          <linearGradient id="lidB${lidId}" x1="0" y1="0" x2="0" y2="1">
++            <stop offset="0" stop-color="#1a0802" stop-opacity=".45"/><stop offset=".3" stop-color="#fff1df" stop-opacity=".5"/>
++            <stop offset=".55" stop-color="#fff1df" stop-opacity="0"/><stop offset="1" stop-color="#1a0802" stop-opacity=".6"/>
+           </linearGradient>
+-          <radialGradient id="lidT${lidId}" cx=".42" cy=".4" r=".7">
+-            <stop offset="0" stop-color="#eaa66c"/><stop offset=".6" stop-color="#bd6c30"/><stop offset="1" stop-color="#8f4a1d"/>
++          <radialGradient id="lidT${lidId}" cx=".38" cy=".35" r=".75">
++            <stop offset="0" stop-color="#f7c897"/><stop offset=".45" stop-color="#c47a42"/><stop offset="1" stop-color="#7d3d18"/>
+           </radialGradient>
+           <linearGradient id="tubeD${lidId}" x1="0" y1="0" x2="1" y2="0">${tubeLightStops(tubeDark, '#160902')}</linearGradient>
+           <linearGradient id="tubeL${lidId}" x1="0" y1="0" x2="1" y2="0">${tubeLightStops(tubeShine, '#fff6e6')}</linearGradient>
+         </defs>
+         <path class="tube-light" fill="url(#tubeD${lidId})"/>
+         <path class="tube-light" fill="url(#tubeL${lidId})"/>
++        <!-- the bead first, so the wall's lower edge sits on top of it -->
++        <path class="lid-bead" fill="url(#lidC${lidId})"/>
++        <path class="lid-bead" fill="url(#lidB${lidId})"/>
++        <path class="lid-band" fill="url(#lidC${lidId})"/>
+         <path class="lid-band" fill="url(#lidV${lidId})"/>
+-        <path class="lid-band" fill="url(#lidH${lidId})"/>
+-        <path class="lid-top-edge" fill="none" stroke="#f8c896" stroke-width="1.6" stroke-linecap="round"/>
+-        <path class="lid-low-edge" fill="none" stroke="#e7a56b" stroke-width="1.4" stroke-linecap="round"/>
+-        <path class="lid-seam" fill="none" stroke="#3a1606" stroke-width="1.3" stroke-linecap="round"/>
+-        <path class="lid-cap" fill="url(#lidT${lidId})" stroke="#f6c290" stroke-width="1.4"/>
++        <path class="lid-top-edge" fill="none" stroke="#ffd9b0" stroke-opacity=".85" stroke-width="1.4" stroke-linecap="round"/>
++        <path class="lid-seam" fill="none" stroke="#2a0f04" stroke-opacity=".55" stroke-width="1" stroke-linecap="round"/>
++        <path class="lid-cap" fill="url(#lidT${lidId})" stroke="#ffd2a4" stroke-width="1.2"/>
++        <path class="lid-ring" fill="none" stroke="#5e2a0e" stroke-opacity=".7" stroke-width="1.3"/>
++        <path class="lid-ring-hi" fill="none" stroke="#ffd9b0" stroke-opacity=".6" stroke-width="1"/>
+       </svg>
+     </div>
+     ${opts.shadow === false ? '' : '<div class="pack-shadow"></div>'}`;
+@@ -86,9 +98,9 @@
+   const img = host.querySelector('.pack-front img'), sheen = host.querySelector('.pack-sheen');
+   const backImg = host.querySelector('.pack-back img');
+   const tube = host.querySelector('.tube3d');
+-  const lidSvg = host.querySelector('.lid2d'), lidBands = lidSvg.querySelectorAll('.lid-band'), tubeLights = lidSvg.querySelectorAll('.tube-light');
+-  const [lidTopEdge, lidLowEdge, lidSeam, lidCap] = ['.lid-top-edge', '.lid-low-edge', '.lid-seam', '.lid-cap'].map(q => lidSvg.querySelector(q));
+-  const dim = { W: 0, H: 0, h: 0, r: 0, lr: 0, lh: 0 };
++  const lidSvg = host.querySelector('.lid2d'), lidBands = lidSvg.querySelectorAll('.lid-band'), lidBeads = lidSvg.querySelectorAll('.lid-bead'), tubeLights = lidSvg.querySelectorAll('.tube-light');
++  const [lidTopEdge, lidSeam, lidCap, lidRing, lidRingHi] = ['.lid-top-edge', '.lid-seam', '.lid-cap', '.lid-ring', '.lid-ring-hi'].map(q => lidSvg.querySelector(q));
++  const dim = { W: 0, H: 0, h: 0, r: 0, lr: 0, up: 0, down: 0 };
+   let lastLid = '';
+   const st = { ry: opts.ry ?? -14, rx: 4, try: opts.ry ?? -14, trx: 4, vel: 0, dragging: false, idle: opts.idle ?? true, hoverX: 0, hoverY: 0 };
+   // fmt = what is painted now; target = where the latest swap is heading (a quick second switch must compare against this)
+@@ -102,14 +114,14 @@
+   // cylinder size from the host box: label height = 0.9 of the box, diameter from the label's proportions
+   function sizeTube() {
+     const H = host.clientHeight; if (!H) return;
+-    const h = H * .9, side = h * 1.62 / TUBE_SIDES;          // label is 1.62 × as wide as it is tall
++    const h = H * .88, side = h * 1.62 / TUBE_SIDES;          // label is 1.62 × as wide as it is tall
+     const r = side / 2 / Math.tan(Math.PI / TUBE_SIDES);
+     host.style.setProperty('--tn', TUBE_SIDES);
+     host.style.setProperty('--th', h.toFixed(1) + 'px');
+     host.style.setProperty('--tw', side.toFixed(3) + 'px');
+     host.style.setProperty('--tr', r.toFixed(2) + 'px');
+-    // the copper slip lid sits over the top 6% of the label and is 2.5% wider (drawn by drawLid)
+-    Object.assign(dim, { W: host.clientWidth, H, h, r, lr: r * 1.025, lh: h * .06 });
++    // the copper slip lid rises LID_UP above the label, slips LID_DOWN over it and is LID_R wider (drawn by drawLid)
++    Object.assign(dim, { W: host.clientWidth, H, h, r, lr: r * LID_R, up: h * LID_UP, down: h * LID_DOWN });
+     lidSvg.setAttribute('viewBox', `0 0 ${dim.W} ${H}`);
+     lastLid = '';
+   }
+@@ -124,14 +136,14 @@
+     const k = PERSPECTIVE / (PERSPECTIVE - z2);
+     return [dim.W / 2 + x1 * k, dim.H / 2 + y2 * k, z2];
+   }
+-  const LID_STEPS = 64;
++  const LID_STEPS = 96;
+   function drawLid(rx, sway, bob) {
+     const key = `${rx.toFixed(2)}|${sway.toFixed(2)}|${bob.toFixed(1)}|${dim.W}`;
+     if (key === lastLid || !dim.W) return; lastLid = key;
+     const a = rx * Math.PI / 180, b = sway * Math.PI / 180, cX = Math.cos(a), sX = Math.sin(a), cZ = Math.cos(b), sZ = Math.sin(b);
+-    const top = -dim.h / 2 - 1, low = -dim.h / 2 + dim.lh;
++    const top = -dim.h / 2 - dim.up, low = -dim.h / 2 + dim.down, beadTop = low - dim.h * BEAD_H;
+     const ring = (y, r = dim.lr) => Array.from({ length: LID_STEPS }, (_, i) => { const t = i / LID_STEPS * 2 * Math.PI; return project(r * Math.cos(t), y, r * Math.sin(t), cX, sX, cZ, sZ, bob); });
+-    const T = ring(top), L = ring(low);
++    const T = ring(top), L = ring(beadTop);
+     // outline of a band between two circles = convex hull of the two projected circles
+     const cross = (o, p, q) => (p[0] - o[0]) * (q[1] - o[1]) - (p[1] - o[1]) * (q[0] - o[0]);
+     const hullOf = (A, B) => {
+@@ -142,21 +154,26 @@
+       return [...lo.slice(0, -1), ...up.slice(0, -1)];
+     };
+     const poly = ps => 'M' + ps.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('L');
+-    const hullD = poly(hullOf(T, L)) + 'Z';
+-    lidBands.forEach(el => el.setAttribute('d', hullD));
++    // the edges you can see run along the front half of each circle (z towards you)
++    const front = ps => { const i0 = ps.findIndex((p, i) => p[2] >= 0 && ps[(i - 1 + ps.length) % ps.length][2] < 0); const o = []; for (let k = 0; k < ps.length; k++) { const p = ps[(i0 + k) % ps.length]; if (p[2] < 0) break; o.push(p); } return o; };
++    // the visible part of a band between two circles = the front half of the upper circle, then the front half of the
++    // lower one backwards. (A convex hull of both circles would also cover the lid's open bottom, where the label is.)
++    const band = (A, B) => poly([...front(A), ...front(B).reverse()]) + 'Z';
++    // the lid wall, then the rolled bead at its lower edge (a little wider than the wall)
++    lidBands.forEach(el => el.setAttribute('d', band(T, L)));
++    const beadD = band(ring(beadTop - 1, dim.r * BEAD_R), ring(low, dim.r * BEAD_R));
++    lidBeads.forEach(el => el.setAttribute('d', beadD));
+     // the light on the label: the tube's own outline, from under the lid to the bottom
+     const bodyD = poly(hullOf(ring(low - 2, dim.r), ring(dim.h / 2, dim.r))) + 'Z';
+     tubeLights.forEach(el => el.setAttribute('d', bodyD));
+-    // the edges you can see run along the front half of each circle (z towards you)
+-    const front = ps => { const i0 = ps.findIndex((p, i) => p[2] >= 0 && ps[(i - 1 + ps.length) % ps.length][2] < 0); const o = []; for (let k = 0; k < ps.length; k++) { const p = ps[(i0 + k) % ps.length]; if (p[2] < 0) break; o.push(p); } return o; };
+-    lidTopEdge.setAttribute('d', poly(front(ring(top + 1.5))));
+-    lidLowEdge.setAttribute('d', poly(front(ring(low - 2.5))));
+-    lidSeam.setAttribute('d', poly(front(L)));
+-    // the round top only shows when you look down onto it
+-    const n = [sZ, -cZ * cX, -cZ * sX];                                     // the top's normal after sway and tilt
+-    const xc = -top * sZ, yc = top * cZ * cX + bob, zc = top * cZ * sX;      // its centre before perspective
+-    const seen = n[0] * -xc + n[1] * -yc + n[2] * (PERSPECTIVE - zc) > 0;    // facing the eye at (0, 0, PERSPECTIVE)
++    lidTopEdge.setAttribute('d', poly(front(ring(top + 1.2))));
++    lidSeam.setAttribute('d', poly(front(ring(beadTop + .5, dim.lr))));
++    // the round top only shows when you look down onto it: a domed cap with a pressed ring
++    // seen from above when the back of the top circle (t = 3/4 turn, away from you) lands higher on screen than its front
++    const seen = T[LID_STEPS * 3 / 4][1] < T[LID_STEPS / 4][1];
+     lidCap.setAttribute('d', seen ? poly(T) + 'Z' : '');
++    lidRing.setAttribute('d', seen ? poly(ring(top, dim.lr * CAP_RING)) + 'Z' : '');
++    lidRingHi.setAttribute('d', seen ? poly(ring(top + 1, dim.lr * CAP_RING)) + 'Z' : '');
+   }
+   if ('ResizeObserver' in window) new ResizeObserver(sizeTube).observe(host); else addEventListener('resize', sizeTube);
+ 
+@@ -165,7 +182,8 @@
+     const isTube = fmt === 'tube';
+     img.alt = opts.alt === false ? '' : `${fname(f)}, ${DATA.formats[fmt].name[I18N.lang]}`;
+     host.dataset.fmt = fmt;
+-    tube.hidden = lidSvg.hidden = !isTube;
++    // an <svg> has no .hidden property (that is HTML only), so setting it never removed the attribute and the lid never showed
++    tube.hidden = !isTube; lidSvg.toggleAttribute('hidden', !isTube);
+     host.querySelectorAll('.pack-face').forEach(el => (el.hidden = isTube));
+     if (isTube) {
+       tube.dataset.f = f.id;
+diff -ru a/src/styles.css b/src/styles.css
+--- a/src/styles.css	2026-10-29 09:53:20.785787778 +0100
++++ b/src/styles.css	2026-10-29 09:53:20.788653296 +0100
+@@ -233,8 +233,8 @@
+   position: absolute; width: calc(var(--tw) + 1.2px); height: var(--th); left: calc(var(--tw) / -2 - .6px); top: calc(var(--th) / -2);
+   transform: rotateY(calc((var(--i) + .5) * 360deg / var(--tn))) translateZ(var(--tr));   /* +.5: Chrome draws a strip at exactly 0deg with a seam */ backface-visibility: hidden; -webkit-backface-visibility: hidden;
+   /* background-image (lid, lid shadow, rim, label) comes from one rule per flavour written by pack.js */
+-  background-size: 100% 5%, 100% 2.6%, 100% 1.6%, calc(var(--tw) * var(--tn)) 100%;   /* the copper band stays just inside the lid */
+-  background-position: 0 0, 0 calc(var(--th) * .06), 0 100%, calc(.6px - (var(--i) * var(--tw) + var(--tw) * var(--tn) / 4)) 0;
++  background-size: 100% 2.6%, 100% 2.6%, 100% 1.6%, calc(var(--tw) * var(--tn)) 100%;   /* the copper band stays just inside the lid */
++  background-position: 0 0, 0 calc(var(--th) * .03), 0 100%, calc(.6px - (var(--i) * var(--tw) + var(--tw) * var(--tn) / 4)) 0;
+   background-repeat: no-repeat, no-repeat, no-repeat, repeat-x;
+ }
+ .tube-cap { position: absolute; width: calc(var(--tr) * 2); height: calc(var(--tr) * 2); left: calc(var(--tr) * -1); top: calc(var(--tr) * -1); border-radius: 50%; }
