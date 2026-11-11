@@ -1,7 +1,7 @@
 // Cloudflare Workers config: serves the static site in public/ and nothing else.
 // public/index.html is built from src/ with `npm run build`; src/, design/ and docs/ are never uploaded.
 {
-  "name": "7sentidos",
+  "name": "aracari",
   "preview_urls": false,
   "compatibility_date": "2026-10-01",
   "assets": {
