@@ -22,8 +22,8 @@ The brand kit is in `design/`. Read `design/BRAND.md` before changing anything v
 
 ## Site
 
-- Only `public/` is deployed: a Cloudflare Worker named `7sentidos` serves it as static assets, set in `wrangler.jsonc`. `src/`, `design/` and `docs/` are never published.
-- Live at https://7sentidos.francesco-swoboda.workers.dev
+- Only `public/` is deployed: a Cloudflare Worker named `aracari` serves it as static assets, set in `wrangler.jsonc`. `src/`, `design/` and `docs/` are never published.
+- Live at https://aracari.nl and https://www.aracari.nl (also https://aracari.francesco-swoboda.workers.dev)
 - Pushing to GitHub does NOT deploy: Cloudflare is not connected to the repo. Deploy with `npm run deploy` (builds, then uploads with wrangler; needs `npx wrangler login` once per machine). After deploying, open the live URL and check it changed.
 - Run it locally with `npm run start` (http://localhost:3000).
 
