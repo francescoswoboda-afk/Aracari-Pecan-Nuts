@@ -15,7 +15,7 @@ The brand kit is in `design/`. Read `design/BRAND.md` before changing anything v
 
 ## Code
 
-- `src/` is the source: `index.html`, `styles.css`, `js/` (loaded in the order listed in `build.js`) and `assets/` (600 px pack webps, wordmarks, icons).
+- `src/` is the source: `index.html`, `styles.css`, `js/` (loaded in the order listed in `build.js`) `assets/` (600 px pack webps, wordmarks, icons) and `root/` (favicon.ico and app icons, copied as is to the site root so Google can fetch them; the source is `design/logo/aracari-icon.svg`).
 - `src/js/data.js` holds every flavour, product, bundle, price, shipping rule and pairing. Change shop data there only.
 - `npm run build` inlines everything into `public/index.html`, except the large full-resolution tube labels (`*-tube-label.webp`), which it copies to `public/assets/` so they load only when a tube is shown. Always rebuild after editing `src/`, and commit the rebuilt files.
 - `docs/DECISIONES.md` (Spanish) explains the design decisions; `docs/type-study/` is the typography study.
@@ -23,7 +23,7 @@ The brand kit is in `design/`. Read `design/BRAND.md` before changing anything v
 ## Site
 
 - Only `public/` is deployed: a Cloudflare Worker named `7sentidos` serves it as static assets, set in `wrangler.jsonc`. `src/`, `design/` and `docs/` are never published.
-- Live at https://7sentidos.francesco-swoboda.workers.dev
+- Live at https://aracari.nl (custom domain on the Worker; also https://7sentidos.francesco-swoboda.workers.dev). The page's canonical URL is https://aracari.nl/.
 - Pushing to GitHub does NOT deploy: Cloudflare is not connected to the repo. Deploy with `npm run deploy` (builds, then uploads with wrangler; needs `npx wrangler login` once per machine). After deploying, open the live URL and check it changed.
 - Run it locally with `npm run start` (http://localhost:3000).
 

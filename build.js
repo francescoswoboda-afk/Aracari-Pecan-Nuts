@@ -5,6 +5,7 @@
 // with a data URI.
 // Writes:
 //   public/index.html        the live site (Cloudflare serves public/)
+//   public/<file>            each file in src/root (favicon, app icons), copied as is to the site root
 //   build/artifact.html      the same page without <html>/<head>/<body>, for the claude.ai preview
 const fs = require('fs');
 const path = require('path');
@@ -48,6 +49,8 @@ const pubAssets = path.join(root, 'public', 'assets');
 fs.mkdirSync(pubAssets, { recursive: true });
 for (const f of fs.readdirSync(pubAssets)) if (!external.has(f)) fs.rmSync(path.join(pubAssets, f));
 for (const f of external) fs.copyFileSync(path.join(root, 'src', 'assets', f), path.join(pubAssets, f));
+// favicon and app icons stay real files at the site root, so search engines can fetch them
+for (const f of fs.readdirSync(src('root'))) fs.copyFileSync(src('root/' + f), path.join(root, 'public', f));
 
 // Artifact version: the host adds its own doctype, html, head and body.
 const head = html.match(/<head>([\s\S]*?)<\/head>/)[1].replace(/<meta charset[^>]*>\s*/, '').replace(/<meta name="viewport"[^>]*>\s*/, '');
