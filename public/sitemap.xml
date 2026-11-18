@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://aracari.nl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://aracari.nl/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://aracari.nl/nl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://aracari.nl/"/>
+  </url>
+  <url>
+    <loc>https://aracari.nl/nl/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://aracari.nl/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://aracari.nl/nl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://aracari.nl/"/>
+  </url>
+  <url>
+    <loc>https://aracari.nl/contact/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://aracari.nl/contact/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://aracari.nl/nl/contact/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://aracari.nl/contact/"/>
+  </url>
+  <url>
+    <loc>https://aracari.nl/nl/contact/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://aracari.nl/contact/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://aracari.nl/nl/contact/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://aracari.nl/contact/"/>
+  </url>
+</urlset>

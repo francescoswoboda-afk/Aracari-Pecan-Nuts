@@ -11,12 +11,13 @@ The brand kit is in `design/`. Read `design/BRAND.md` before changing anything v
 - El Porvenir's website (https://www.elporvenir.farm/) is unfinished and most facts on it are not accurate yet (per the owner, Oct 2026). The Araçari site links to it (owner's choice), but do not use it as a source of facts; anything taken from it is marked [VERIFY].
 - No fake reviews, awards, certifications, stock counts or health claims. Environmental claims must be specific and provable (EU Directive 2024/825); no generic "eco-friendly" or "sustainable" wording. Never use "organic", "bio" or "eco" for the products until an EU organic certificate is in place (Reg. (EU) 2018/848).
 - Prices use a comma: `€5,95`. Prices are placeholders while `DATA.pricesConfirmed` is `false`.
-- Copy is in English with a Dutch toggle; Dutch strings live in `src/js/i18n.js`.
+- Copy is in English with a Dutch version; Dutch strings live in `src/js/i18n.js`. English is at `/`, Dutch at `/nl/` (a separate page, so Google indexes it); the EN/NL toggle links between them.
 
 ## Code
 
 - `src/` is the source: `index.html`, `styles.css`, `js/` (loaded in the order listed in `build.js`) `assets/` (600 px pack webps, wordmarks, icons) and `root/` (favicon.ico and app icons, copied as is to the site root so Google can fetch them; the source is `design/logo/aracari-icon.svg`).
 - `src/js/data.js` holds every flavour, product, bundle, price, shipping rule and pairing. Change shop data there only.
+- `npm run build` also writes `public/nl/index.html` (Dutch strings put into the HTML; a `data-i18n` element without a Dutch string stays English), the contact / company-details pages `public/contact/` and `public/nl/contact/` (template `src/page.html`, text in `PAGES` in `i18n.js`), `sitemap.xml` and `robots.txt`. Add a new separate page to `PAGES` and the loop in `build.js`, so it also lands in the sitemap.
 - `npm run build` inlines everything into `public/index.html`, except the large full-resolution tube labels (`*-tube-label.webp`), which it copies to `public/assets/` so they load only when a tube is shown. Always rebuild after editing `src/`, and commit the rebuilt files.
 - `docs/DECISIONES.md` (Spanish) explains the design decisions; `docs/type-study/` is the typography study.
 

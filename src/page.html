@@ -1,0 +1,71 @@
+<!doctype html>
+<!-- Template for the small separate pages (contact). build.js fills in every {{…}} from PAGES in js/i18n.js. -->
+<html lang="{{lang}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
+<meta name="theme-color" content="#f6efe2">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" href="/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="canonical" href="{{canonical}}">
+{{alternates}}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Araçari">
+<meta property="og:url" content="{{canonical}}">
+<meta property="og:title" content="{{title}}">
+<meta property="og:description" content="{{description}}">
+<meta property="og:image" content="https://aracari.nl/icon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@600;700&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap">
+<style>
+:root { --ink: #13333a; --ink-2: #285c69; --cream: #f6efe2; --paper: #fff8ea; --orange: #e88028; --sun: #f6d641; --line: rgba(19,51,58,.16); --muted: #4f6266;
+  --display: "Josefin Sans", system-ui, sans-serif; --body: "Literata", Georgia, serif; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--cream); color: var(--ink); font-family: var(--body); font-size: 1.0625rem; line-height: 1.6; }
+a { color: var(--ink-2); text-underline-offset: .2em; }
+a:hover { color: var(--ink); }
+.wrap { width: min(760px, 100% - 32px); margin-inline: auto; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 20px; }
+.top img { display: block; width: 150px; height: auto; }
+.lang { display: flex; border: 1.5px solid var(--line); border-radius: 999px; padding: 2px; }
+.lang a { font-family: var(--display); font-weight: 700; font-size: .72rem; letter-spacing: .12em; padding: 9px 10px 6px; border-radius: 999px; color: var(--ink); text-decoration: none; }
+.lang a[aria-current="page"] { background: var(--ink); color: var(--cream); }
+main { padding-block: clamp(32px, 7vw, 72px) 64px; }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(2.2rem, 1.6rem + 3vw, 3.4rem); line-height: 1; letter-spacing: .02em; text-transform: uppercase; margin: 0 0 16px; }
+.lead { font-size: 1.2rem; margin: 0 0 40px; max-width: 34em; }
+section { background: var(--paper); border-radius: 22px; padding: clamp(20px, 4vw, 32px); margin-bottom: 16px; box-shadow: 0 1px 0 rgba(19,51,58,.08); }
+h2 { font-family: var(--display); font-weight: 700; font-size: .9rem; letter-spacing: .14em; text-transform: uppercase; margin: 0 0 12px; }
+section p { margin: 0; }
+dl { display: grid; grid-template-columns: minmax(0, 14em) minmax(0, 1fr); gap: 10px 20px; margin: 0; }
+dt { color: var(--muted); }
+dd { margin: 0; }
+.tbd { font-family: var(--display); font-weight: 700; font-size: .72em; letter-spacing: .06em; background: var(--sun); color: var(--ink); padding: .2em .45em .05em; border-radius: 4px; }
+.back { display: inline-block; margin-top: 24px; font-family: var(--display); font-weight: 700; font-size: .8rem; letter-spacing: .14em; text-transform: uppercase; background: var(--ink); color: var(--cream); text-decoration: none; padding: 15px 22px 12px; border-radius: 999px; }
+.back:hover { color: var(--cream); background: var(--ink-2); }
+footer { background: var(--ink); color: rgba(246,239,226,.75); font-size: .9rem; padding-block: 32px; }
+footer img { width: 120px; height: auto; display: block; margin-bottom: 10px; }
+:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+@media (max-width: 560px) { dl { grid-template-columns: minmax(0, 1fr); gap: 2px; } dd { margin-bottom: 10px; } }
+</style>
+</head>
+<body>
+<header class="wrap top">
+  <a href="{{home}}" aria-label="Araçari"><img src="assets/aracari-wordmark-dark.svg" alt="Araçari" width="150" height="38"></a>
+  <nav class="lang" aria-label="{{langLabel}}">{{langLinks}}</nav>
+</header>
+<main class="wrap">
+  <h1>{{h1}}</h1>
+  <p class="lead">{{lead}}</p>
+  {{sections}}
+  <a class="back" href="{{home}}">{{back}}</a>
+</main>
+<footer>
+  <div class="wrap"><img src="assets/aracari-wordmark-white.svg" alt="Araçari" width="120" height="30"></div>
+</footer>
+</body>
+</html>

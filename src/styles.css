@@ -151,8 +151,8 @@ h3 { font-family: var(--display); font-weight: 700; font-size: var(--fs-h3); lin
 .nav-tools { display: flex; align-items: center; gap: 6px; margin-left: auto; }
 .nav-links + .nav-tools { margin-left: 0; }
 .lang { display: flex; border: 1.5px solid var(--line); border-radius: 999px; padding: 2px; }
-.lang-btn { border: 0; background: transparent; font-family: var(--display); font-weight: 700; font-size: .72rem; letter-spacing: .12em; padding: 7px 9px 5px; border-radius: 999px; min-height: 32px; }
-.lang-btn[aria-pressed="true"] { background: var(--ink); color: var(--cream); }
+.lang-btn { border: 0; background: transparent; font-family: var(--display); font-weight: 700; font-size: .72rem; letter-spacing: .12em; padding: 7px 9px 5px; border-radius: 999px; min-height: 32px; display: inline-flex; align-items: center; color: var(--ink); text-decoration: none; }
+.lang-btn[aria-current="true"] { background: var(--ink); color: var(--cream); }
 .cart-btn {
   display: inline-flex; align-items: center; gap: 8px; border: 0; height: 46px; padding: 0 8px 0 16px; border-radius: 999px;
   background: var(--ink); color: var(--cream); font-family: var(--display); font-weight: 700; font-size: .78rem; letter-spacing: .14em; text-transform: uppercase;
@@ -515,8 +515,8 @@ h3 { font-family: var(--display); font-weight: 700; font-size: var(--fs-h3); lin
 .footer-grid { display: grid; grid-template-columns: auto 1fr; gap: 24px 40px; align-items: center; }
 .footer-logo { width: 180px; height: auto; }
 .footer-links { display: flex; flex-wrap: wrap; gap: 6px 4px; justify-content: flex-end; }
-.footer-links button { border: 0; background: transparent; color: var(--cream); font-family: var(--display); font-weight: 600; font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; padding: 12px 12px 9px; border-radius: 999px; }
-.footer-links button:hover { background: rgba(246,239,226,.1); }
+.footer-links button, .footer-links a { border: 0; background: transparent; color: var(--cream); font-family: var(--display); font-weight: 600; font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; padding: 12px 12px 9px; border-radius: 999px; text-decoration: none; }
+.footer-links button:hover, .footer-links a:hover { background: rgba(246,239,226,.1); }
 .footer-meta { grid-column: 1 / -1; margin: 0; font-size: var(--fs-small); color: rgba(246,239,226,.7); }
 .footer-secret { grid-column: 1 / -1; margin: 0; min-height: 1.2em; font-family: var(--hand); font-size: 1.3rem; color: var(--sun); }
 

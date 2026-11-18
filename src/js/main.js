@@ -229,7 +229,15 @@ const App = (() => {
       m.querySelector('a').focus();
     });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
-    $$('.lang-btn').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+    // EN and NL are separate pages (/ and /nl/), so the toggle is a real link. Where the page is not served
+    // from its own site (the claude.ai preview) it switches the text in place instead.
+    const routed = /^https?:$/.test(location.protocol) && /(^|\.)aracari\.nl$|\.workers\.dev$|^localhost$|^127\.0\.0\.1$/.test(location.hostname);
+    $$('.lang-btn').forEach(b => b.addEventListener('click', e => {
+      if (!routed) { e.preventDefault(); setLang(b.dataset.lang); return; }
+      if (b.dataset.lang === I18N.lang) { e.preventDefault(); return; }
+      store.set('lang', b.dataset.lang);
+      b.href = b.getAttribute('href').split('#')[0] + location.hash;   // keep the section you were on
+    }));
   }
   function setLang(lang) {
     if (lang === I18N.lang) return;
@@ -258,6 +266,9 @@ const App = (() => {
       const b = e.target.closest('[data-legal]'); if (b) { legal(b.dataset.legal); Util.open($('#legal'), { trigger: b }); }
       const t = e.target.closest('[data-legal-tab]'); if (t) { legal(t.dataset.legalTab); $(`[data-legal-tab="${t.dataset.legalTab}"]`).focus(); }
     });
+    // links like /#legal-shipping (from the contact page) open that text
+    const m = location.hash.match(/^#legal-(\w+)$/);
+    if (m && I18N.s().legal[m[1]]) { legal(m[1]); Util.open($('#legal')); }
   }
 
   /* ---------- forms ---------- */
@@ -325,7 +336,8 @@ const App = (() => {
     if (hasGsap) document.documentElement.classList.add('js');
     I18N.capture();
     $$('.split').forEach(h => Util.split(h));
-    const lang = store.get('lang', 'en');
+    // the page's own language (set on <html data-lang> by build.js); the stored choice only matters in the preview
+    const lang = document.documentElement.dataset.lang || store.get('lang', 'en');
     if (lang === 'nl') I18N.apply('nl');
     NAV_PERCH.el = $('#navBranch svg');
     initScroll();

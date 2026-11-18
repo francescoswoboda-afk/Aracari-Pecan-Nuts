@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -11,9 +11,13 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="description" content="Pecans from the south of Brazil in 8 flavours, from salted caramel to doce de leite. A father-and-son business delivering across the Netherlands.">
 <link rel="canonical" href="https://aracari.nl/">
+<link rel="alternate" hreflang="en" href="https://aracari.nl/">
+<link rel="alternate" hreflang="nl" href="https://aracari.nl/nl/">
+<link rel="alternate" hreflang="x-default" href="https://aracari.nl/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Araçari">
 <meta property="og:url" content="https://aracari.nl/">
+<meta property="og:locale" content="en_GB">
 <meta property="og:title" content="Araçari | Flavoured Brazilian pecans">
 <meta property="og:description" content="Pecans from the south of Brazil in 8 flavours, delivered across the Netherlands.">
 <meta property="og:image" content="https://aracari.nl/icon-512.png">
@@ -50,8 +54,8 @@
   </nav>
   <div class="nav-tools">
     <div class="lang" role="group" aria-label="Language">
-      <button type="button" class="lang-btn" data-lang="en" aria-pressed="true">EN</button>
-      <button type="button" class="lang-btn" data-lang="nl" aria-pressed="false">NL</button>
+      <a class="lang-btn" href="/" hreflang="en" lang="en" data-lang="en" aria-current="true">EN</a>
+      <a class="lang-btn" href="/nl/" hreflang="nl" lang="nl" data-lang="nl" aria-current="false">NL</a>
     </div>
     <button type="button" class="cart-btn" id="cartBtn" aria-controls="cart" aria-expanded="false">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.3 11.2a2 2 0 0 1-2 1.8H8.3a2 2 0 0 1-2-1.8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
@@ -344,7 +348,7 @@
       <button type="button" data-legal="shipping" data-i18n="foot.shipping">Shipping &amp; returns</button>
       <button type="button" data-legal="terms" data-i18n="foot.terms">Terms</button>
       <button type="button" data-legal="privacy" data-i18n="foot.privacy">Privacy</button>
-      <button type="button" data-legal="contact" data-i18n="foot.contact">Contact</button>
+      <a href="/contact/" id="contactLink" data-i18n="foot.contact">Contact</a>
       <button type="button" id="cookieOpen" data-i18n="foot.cookies">Cookies</button>
     </nav>
     <p class="footer-meta"><span data-i18n="foot.origin">Our farm: El Porvenir, Monte Alverne, Santa Cruz do Sul, Brazil.</span> KvK [TBD] · BTW [TBD]</p>

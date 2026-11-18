@@ -111,7 +111,6 @@ const STR = {
       shipping: { t: 'Shipping & returns', body: `<p><span class="tbd">[TBD]</span> All of this is placeholder text for the owners to complete and have checked.</p><h3>Shipping</h3><p>We ship within the Netherlands. Standard delivery costs {ship} and is free from {free}. Orders arrive in {days} working days. <span class="tbd">[TBD]</span></p><p>Belgium, Germany and the rest of Europe come later.</p><h3>Returns and the right of withdrawal</h3><p>Under EU consumer law you can usually withdraw from an online purchase within 14 days without giving a reason. <span class="tbd">[VERIFY]</span> The law has exceptions for goods that spoil quickly and for sealed goods that are unsealed for health or hygiene reasons. Check with an adviser which of these apply to pecans before launch.</p><p>Damaged or wrong order: <span class="tbd">[TBD]</span></p>` },
       terms: { t: 'Terms and conditions', body: `<p><span class="tbd">[TBD]</span> Terms and conditions to be written and checked by a legal adviser. Company name, KvK number, VAT number, address, payment, delivery, withdrawal, warranty, complaints and applicable law go here.</p>` },
       privacy: { t: 'Privacy', body: `<p><span class="tbd">[TBD]</span> Privacy policy to be written and checked. It should list what data the shop collects (name, address, email, order history), why, how long it is kept, who processes it (payment provider, carrier, email service) and how people can see or delete their data under the GDPR.</p><p>This site only stores your cart, language and cookie choice in your own browser.</p>` },
-      contact: { t: 'Contact', body: `<p><span class="tbd">[TBD]</span> Email, phone, address and KvK number.</p>` },
     },
     bird: {
       hello: 'Olá! I’m your guide.', secret: 'Sete toques! Before I was Araçari, this family sold its nuts as 7 Sentidos. Seven senses, seven taps. Obrigado for finding me.',
@@ -155,7 +154,6 @@ const STR = {
       shipping: { t: 'Verzending & retour', body: `<p><span class="tbd">[TBD]</span> Dit is allemaal voorlopige tekst die de eigenaren aanvullen en laten controleren.</p><h3>Verzending</h3><p>We verzenden binnen Nederland. Standaard bezorging kost {ship} en is gratis vanaf {free}. Bestellingen komen binnen {days} werkdagen aan. <span class="tbd">[TBD]</span></p><p>België, Duitsland en de rest van Europa volgen later.</p><h3>Retour en herroepingsrecht</h3><p>Volgens het Europese consumentenrecht kun je een online aankoop meestal binnen 14 dagen zonder opgave van reden ontbinden. <span class="tbd">[VERIFY]</span> De wet kent uitzonderingen voor producten die snel bederven en voor verzegelde producten die om gezondheids- of hygiëneredenen zijn geopend. Laat voor de lancering nagaan welke uitzonderingen voor pecannoten gelden.</p><p>Beschadigde of verkeerde bestelling: <span class="tbd">[TBD]</span></p>` },
       terms: { t: 'Algemene voorwaarden', body: `<p><span class="tbd">[TBD]</span> Algemene voorwaarden, te schrijven en te laten controleren door een jurist. Bedrijfsnaam, KvK-nummer, btw-nummer, adres, betaling, levering, herroeping, garantie, klachten en toepasselijk recht komen hier.</p>` },
       privacy: { t: 'Privacy', body: `<p><span class="tbd">[TBD]</span> Privacyverklaring, te schrijven en te laten controleren. Welke gegevens de winkel verzamelt (naam, adres, e-mail, bestelgeschiedenis), waarom, hoe lang, wie ze verwerkt (betaalprovider, vervoerder, e-maildienst) en hoe mensen hun gegevens onder de AVG kunnen inzien of laten verwijderen.</p><p>Deze site bewaart alleen je mand, taal en cookiekeuze in je eigen browser.</p>` },
-      contact: { t: 'Contact', body: `<p><span class="tbd">[TBD]</span> E-mail, telefoon, adres en KvK-nummer.</p>` },
     },
     bird: {
       hello: 'Olá! Ik ben je gids.', secret: 'Sete toques! Voordat ik Araçari was, verkocht deze familie haar noten als 7 Sentidos. Zeven zintuigen, zeven tikjes. Obrigado dat je me vond.',
@@ -172,8 +170,11 @@ const I18N = {
   en: {},
   t(key) { return STR[this.lang][key]; },
   s() { return STR[this.lang]; },
-  // remember the English text that ships in the HTML
+  // remember the English text. The English page ships it in the HTML; the Dutch page (/nl/) is built
+  // with Dutch in the HTML, so build.js embeds the English strings as JSON (#i18nEn) instead.
   capture() {
+    const embedded = document.getElementById('i18nEn');
+    if (embedded) { this.en = JSON.parse(embedded.textContent); return; }
     document.querySelectorAll('[data-i18n]').forEach(el => { this.en[el.dataset.i18n] = el.innerHTML; });
   },
   apply(lang) {
@@ -186,7 +187,50 @@ const I18N = {
       if (el.classList.contains('split')) { el.dataset.text = html; Util.split(el); }
       else el.innerHTML = html;
     });
-    document.querySelectorAll('.lang-btn').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+    document.querySelectorAll('.lang-btn').forEach(b => b.setAttribute('aria-current', String(b.dataset.lang === lang)));
   },
 };
 const fname = f => f.name[I18N.lang] || f.name.en;
+
+/* Separate pages built by build.js (not used by the shop page itself).
+   Home is '/' or '/nl/'. Every [TBD] here is for the owners to fill in. */
+const PAGES = {
+  en: {
+    home: '/', back: 'Back to the shop', langLabel: 'Language',
+    contact: {
+      path: '/contact/',
+      title: 'Contact and company details | Araçari',
+      description: 'How to reach Araçari, and the company details of the business behind the shop.',
+      h1: 'Contact',
+      lead: 'Questions about the pecans, an order, or selling Araçari in your shop? Write to us.',
+      sections: [
+        { h: 'Get in touch', rows: [['Email', '[TBD]'], ['Phone', '[TBD]']] },
+        { h: 'Company details', rows: [['Trading name', 'Araçari'], ['Legal name and legal form', '[TBD]'], ['Address', '[TBD]'], ['KvK number', '[TBD]'], ['VAT number (btw-id)', '[TBD]']] },
+        { h: 'Returns', p: 'Shipping, returns and the 14-day right of withdrawal are explained under <a href="/#legal-shipping">Shipping &amp; returns</a>. Return address: [TBD]' },
+        { h: 'For shops', p: 'Want to sell Araçari in your shop? <a href="/#retail">Ask for samples</a>.' },
+      ],
+    },
+  },
+  nl: {
+    home: '/nl/', back: 'Terug naar de winkel', langLabel: 'Taal',
+    // <head> of the Dutch shop page (the English one is in index.html)
+    index: {
+      title: 'Araçari | Braziliaanse pecannoten met smaak',
+      description: 'Pecannoten uit het zuiden van Brazilië in 8 smaken, van gezouten karamel tot doce de leite. Een vader-en-zoonbedrijf dat door heel Nederland bezorgt.',
+      ogDescription: 'Pecannoten uit het zuiden van Brazilië in 8 smaken, bezorgd in heel Nederland.',
+    },
+    contact: {
+      path: '/nl/contact/',
+      title: 'Contact en bedrijfsgegevens | Araçari',
+      description: 'Zo bereik je Araçari, en de bedrijfsgegevens van het bedrijf achter de winkel.',
+      h1: 'Contact',
+      lead: 'Vragen over de pecannoten, een bestelling of Araçari verkopen in je winkel? Schrijf ons.',
+      sections: [
+        { h: 'Neem contact op', rows: [['E-mail', '[TBD]'], ['Telefoon', '[TBD]']] },
+        { h: 'Bedrijfsgegevens', rows: [['Handelsnaam', 'Araçari'], ['Statutaire naam en rechtsvorm', '[TBD]'], ['Adres', '[TBD]'], ['KvK-nummer', '[TBD]'], ['Btw-identificatienummer', '[TBD]']] },
+        { h: 'Retourneren', p: 'Verzending, retourneren en het herroepingsrecht van 14 dagen lees je bij <a href="/nl/#legal-shipping">Verzending &amp; retour</a>. Retouradres: [TBD]' },
+        { h: 'Voor winkels', p: 'Wil je Araçari verkopen in je winkel? <a href="/nl/#retail">Vraag proefzakjes aan</a>.' },
+      ],
+    },
+  },
+};
