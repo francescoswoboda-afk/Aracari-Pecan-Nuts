@@ -48,7 +48,7 @@ const Hero = (() => {
   function choose(i) {
     pausedUntil = performance.now() + 14000;
     show(i, { dir: i > index ? 1 : -1 });
-    if (Bird.currentPerch()?.el === pack.el && !Bird.busy) { Bird.hop(2); Sound.chirp(2); }
+    if (Bird.currentPerch()?.el === pack.el && !Bird.busy) { Bird.hop(2); }
   }
   function renderSwatches() {
     const box = document.getElementById('heroSwatches');

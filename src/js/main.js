@@ -141,7 +141,8 @@ const App = (() => {
     });
     const batch = (sel, vars = {}) => ScrollTrigger.batch(sel, {
       start: 'top 90%', once: true,
-      onEnter: els => gsap.from(els, { y: 40, opacity: 0, duration: 1, ease: 'expo.out', stagger: .08, ...vars, overwrite: true }),
+      // fromTo with an explicit end, so a second trigger mid-tween cannot freeze a card half-way down
+      onEnter: els => gsap.fromTo(els, { y: 40, opacity: 0, ...vars }, { y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: .08, overwrite: true, clearProps: 'transform,opacity' }),
     });
     batch('.card'); batch('.bundle'); batch('.fact'); batch('.retail-points li'); batch('.ship-facts li', { y: 14 }); batch('#farmPoints li', { y: 20 });
     // the hero headline gets lighter as it leaves
@@ -228,12 +229,6 @@ const App = (() => {
       m.querySelector('a').focus();
     });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
-    $('#soundBtn').addEventListener('click', () => {
-      const on = !Sound.on; Sound.set(on);
-      $('#soundBtn').setAttribute('aria-pressed', String(on));
-      $('#soundBtn').setAttribute('aria-label', on ? (I18N.lang === 'nl' ? 'Geluid aan. Zet geluid uit' : 'Sound on. Turn sound off') : (I18N.lang === 'nl' ? 'Geluid uit. Zet geluid aan' : 'Sound off. Turn sound on'));
-      if (on) Sound.chirp(3);
-    });
     $$('.lang-btn').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
   }
   function setLang(lang) {
@@ -289,7 +284,7 @@ const App = (() => {
         gsap.fromTo(ok.querySelector('.envelope'), { y: 40, rotate: -12, scale: .6 }, { y: 0, rotate: 0, scale: 1, duration: 1, ease: 'elastic.out(1,.5)' });
         gsap.from(ok.querySelectorAll('h3, p'), { y: 16, opacity: 0, stagger: .1, delay: .3, duration: .8, ease: 'expo.out' });
       }
-      Bird.happy(1200); Sound.melody();
+      Bird.happy(1200);
     });
     const lf = $('#letterForm');
     lf.addEventListener('submit', e => {
@@ -297,7 +292,7 @@ const App = (() => {
       const em = $('#nlEmail'), ok = emailOk(em.value) && $('#nlConsent').checked;
       $('#letterMsg').textContent = ok ? I18N.s().letterOk : I18N.s().letterErr;
       fieldError(em, emailOk(em.value) ? '' : I18N.s().co.err.email);
-      if (ok) { lf.reset(); Bird.happy(1200); Bird.hop(2); Sound.melody(); }
+      if (ok) { lf.reset(); Bird.happy(1200); Bird.hop(2); }
     });
   }
 
@@ -311,7 +306,7 @@ const App = (() => {
       if (act === 'toss') Bird.toss();
       if (act === 'beak') Bird.showBeak();
       if (act === 'hop') Bird.hop(3);
-      if (act === 'sing') { Sound.chirp(5); Bird.happy(1200); }
+      if (act === 'sing') { Bird.happy(1200); }
     });
     // wave goodbye at the newsletter; fall asleep if you linger at the very bottom
     let waved = false, sleepTimer = null, asleep = false;

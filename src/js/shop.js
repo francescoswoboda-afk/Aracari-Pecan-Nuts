@@ -31,7 +31,6 @@ const Cart = (() => {
     save(); render();
     const name = item.type === 'flavour' ? fname(byId(item.id)) : bundleById(item.id).name[I18N.lang];
     Util.toast(I18N.s().added(name));
-    Sound.pluck(659);
     const img = item.type === 'flavour' ? packImg(byId(item.id), fmtOf(item)) : byId((bundleById(item.id).contents === 'all' ? DATA.flavours[0].id : bundleById(item.id).contents[0])).img.front;
     if (fromEl) Bird.deliver(fromEl, img, $('#cartBtn')); else bump();
   }
@@ -145,20 +144,16 @@ const Shop = (() => {
       <article class="card" data-id="${f.id}" style="--c-body:${f.colors.body};--c-band:${f.colors.band};--c-strip:${f.colors.strip};--c-ink:${Util.inkFor(f.colors.body)}">
         <div class="card-stage" data-cursor="drag">
           <div class="pack-slot" tabindex="0" role="img" aria-label="${fname(f)} pack. ${s.rotate}"></div>
-          <span class="rotate-hint" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/></svg></span>
-          <button type="button" class="alt-pack" data-alt="tube" aria-label="${s.alsoIn(fmtName('tube'))}"><img src="${f.img.tube}" alt=""><span>${s.alsoShort(DATA.formats.tube.g)}</span></button>
         </div>
         <div class="card-body">
-          <h3>${fname(f)}</h3>
+          <h3><button type="button" class="card-title" data-detail="${f.id}" aria-label="${s.details}: ${fname(f)}">${fname(f)}</button></h3>
           <p class="card-notes">${f.note[I18N.lang]}</p>
-          <span class="allergen">${f.allergen[I18N.lang]}</span>
           <div class="fmt-toggle" role="group" aria-label="${s.format}: ${fname(f)}">
             ${Object.keys(DATA.formats).map(k => `<button type="button" data-fmt="${k}" aria-pressed="${k === 'pouch'}">${fmtName(k)}</button>`).join('')}
           </div>
-          <div class="card-meta"><span class="price">${priceHTML(f.price.pouch)}</span></div>
-          <div class="card-actions">
+          <div class="card-buy">
+            <span class="price">${priceHTML(f.price.pouch)}</span>
             <button type="button" class="btn btn-solid magnetic" data-add="${f.id}" data-fmt="pouch">${s.addToCart}</button>
-            <button type="button" class="btn btn-line" data-detail="${f.id}" aria-label="${s.details}: ${fname(f)}">${s.details}</button>
           </div>
         </div>
       </article>`).join('');
@@ -167,20 +162,13 @@ const Shop = (() => {
       packs.push(p);
       const f = DATA.flavours[i];
       // pouch / tube: swaps the 3D pack, the price and what "Add to cart" adds.
-      // The small pack in the corner always shows the other format, so both are visible.
-      const alt = c.querySelector('.alt-pack');
       const setFmt = fmt => {
-        const other = fmt === 'tube' ? 'pouch' : 'tube', s = I18N.s();
         c.querySelectorAll('.fmt-toggle button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.fmt === fmt)));
-        c.querySelector('.card-meta .price').innerHTML = priceHTML(f.price[fmt]);
+        c.querySelector('.card-buy .price').innerHTML = priceHTML(f.price[fmt]);
         c.querySelector('[data-add]').dataset.fmt = fmt;
-        alt.dataset.alt = other; alt.querySelector('img').src = packImg(f, other);
-        alt.querySelector('span').textContent = s.alsoShort(DATA.formats[other].g);
-        alt.setAttribute('aria-label', s.alsoIn(fmtName(other)));
         p.setFmt(fmt);
       };
       c.querySelector('.fmt-toggle').addEventListener('click', e => { const b = e.target.closest('[data-fmt]'); if (b) setFmt(b.dataset.fmt); });
-      alt.addEventListener('click', e => { e.stopPropagation(); setFmt(alt.dataset.alt); });
       c.addEventListener('pointerenter', () => World.set(f, { duration: .8 }));
       c.addEventListener('focusin', () => World.set(f, { duration: .8 }));
     });

@@ -87,7 +87,7 @@ El SVG del pájaro del pack es una lista plana de trazados, sin partes, y no se 
 - Coreografía: titulares que entran letra a letra con curvas expo, apariciones escalonadas, cursor propio (con etiquetas "turn" y "crack"), botones magnéticos, transición de color de toda la página entre sabores, grano sutil fijo.
 - **El origen** es una escena dibujada en código (árboles generados por recursión) que se desplaza con el scroll. Muestra los amentos de primavera (las "flores" del pecano), el verano verde, la cosecha con las nueces cayendo y el invierno con helada. Después pasa a un mapa estilizado donde la ruta se dibuja y el contador de km sube.
 - **La nuez** es un canvas: mantener pulsado (o tocar tres veces, o la barra espaciadora) aumenta la presión, aparecen grietas, la cáscara se rompe en fragmentos con gravedad y rebote, salen las dos mitades del fruto y entra rodando otra nuez. Lleva contador, racha y vibración en móvil.
-- **Sonido opcional**, apagado por defecto, sintetizado con Web Audio sin muestras: viento, trinos, un "pluck" al añadir al carrito, crujido al romper.
+- **Sin sonido.** Hubo sonido opcional (Web Audio, apagado por defecto); se quitó en noviembre de 2026 junto con su botón.
 - **prefers-reduced-motion:** sin entradas animadas. El pájaro sigue ahí, pero se mueve con calma: aparece y desaparece en vez de volar, y solo parpadea.
 
 ---
@@ -147,7 +147,7 @@ El cliente pidió quitar la sección de la familia y propuso seis argumentos de 
 - **Fotos de stock, reseñas, premios, sellos, logos de tiendas, contadores de stock, afirmaciones de salud.** Prohibidos por el brief y por honestidad.
 - **Inventar notas de cata, ingredientes, valores nutricionales, nombres o anécdotas de la familia.** Todo es [TBD]. Las sugerencias de maridaje sí son mías y están marcadas como "sugerencias a confirmar en una cata [TBD]".
 - **Mapa con contornos geográficos precisos.** El mapa es estilizado a propósito, para no parecer una herramienta de navegación.
-- **Música ambiente.** Solo sonidos cortos y discretos, y apagados por defecto.
+- **Música ambiente y sonidos.** La web no tiene sonido.
 
 ---
 

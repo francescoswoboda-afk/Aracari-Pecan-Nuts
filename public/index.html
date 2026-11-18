@@ -177,9 +177,6 @@ h3 { font-family: var(--display); font-weight: 700; font-size: var(--fs-h3); lin
 .lang { display: flex; border: 1.5px solid var(--line); border-radius: 999px; padding: 2px; }
 .lang-btn { border: 0; background: transparent; font-family: var(--display); font-weight: 700; font-size: .72rem; letter-spacing: .12em; padding: 7px 9px 5px; border-radius: 999px; min-height: 32px; }
 .lang-btn[aria-pressed="true"] { background: var(--ink); color: var(--cream); }
-#soundBtn .wave1, #soundBtn .wave2 { opacity: 0; transition: opacity .3s; }
-#soundBtn[aria-pressed="true"] .wave1, #soundBtn[aria-pressed="true"] .wave2 { opacity: 1; }
-#soundBtn[aria-pressed="true"] .mute { opacity: 0; }
 .cart-btn {
   display: inline-flex; align-items: center; gap: 8px; border: 0; height: 46px; padding: 0 8px 0 16px; border-radius: 999px;
   background: var(--ink); color: var(--cream); font-family: var(--display); font-weight: 700; font-size: .78rem; letter-spacing: .14em; text-transform: uppercase;
@@ -366,17 +363,16 @@ h3 { font-family: var(--display); font-weight: 700; font-size: var(--fs-h3); lin
 .card:hover { transform: translateY(-6px); box-shadow: 0 1px 0 rgba(19,51,58,.08), 0 36px 50px -30px rgba(19,51,58,.7); }
 .card-stage { position: relative; background: var(--c-body); padding: 26px 18% 20px; isolation: isolate; cursor: grab; }
 .card-stage:active { cursor: grabbing; }
-.card-stage::before { content: ""; position: absolute; inset: 55% 0 0; background: var(--c-band); opacity: .8; -webkit-mask: var(--swirl) 0 0 / 160px 160px repeat; mask: var(--swirl) 0 0 / 160px 160px repeat; z-index: -1; }
+.card-stage::before { content: ""; position: absolute; inset: 55% 0 0; background: var(--c-band); opacity: .3; -webkit-mask: var(--swirl) 0 0 / 160px 160px repeat; mask: var(--swirl) 0 0 / 160px 160px repeat; z-index: -1; }
 .card-stage .pack3d { width: 100%; }
-.rotate-hint { position: absolute; right: 12px; top: 12px; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.22); color: var(--c-ink); pointer-events: none; }
-.rotate-hint svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
-/* the other format, small in the corner of the card: tap to switch */
-.alt-pack { position: absolute; right: 10px; bottom: 10px; z-index: 2; width: auto; display: grid; justify-items: center; gap: 4px; padding: 8px 6px 6px; border: 0; border-radius: 14px; background: rgba(255,255,255,.2); color: var(--c-ink); cursor: pointer; transition: background .25s, transform .4s var(--ease-out); }
-.alt-pack:hover, .alt-pack:focus-visible { background: rgba(255,255,255,.34); transform: translateY(-3px); }
-.alt-pack img { width: 64px; height: 72px; object-fit: contain; filter: drop-shadow(0 6px 6px rgba(0,0,0,.25)); pointer-events: none; }
-.alt-pack span { font-family: var(--display); font-weight: 600; font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; line-height: 1; padding-top: .15em; }
 .card-body { display: flex; flex-direction: column; gap: 6px; padding: 18px 18px 18px; flex: 1; }
 .card-body h3 { font-size: clamp(1.1rem, 1rem + .4vw, 1.35rem); text-transform: uppercase; letter-spacing: .06em; padding-top: .1em; }
+/* the name opens the details (as does a click on the pack) */
+.card-title { all: unset; cursor: pointer; text-underline-offset: .2em; text-decoration-thickness: 1.5px; }
+.card-title:hover { text-decoration-line: underline; }
+.card-title:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+.card-buy { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin-top: auto; padding-top: 14px; }
+.card-buy .btn { min-height: 44px; padding-inline: 16px; font-size: .74rem; letter-spacing: .12em; }
 .card-notes { font-family: var(--hand); font-weight: 600; font-size: 1.15rem; line-height: 1.2; color: var(--ink-2); margin: 0; }
 .card-meta { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-top: auto; padding-top: 12px; }
 .card-meta .size { font-size: var(--fs-small); color: var(--muted); }
@@ -384,9 +380,6 @@ h3 { font-family: var(--display); font-weight: 700; font-size: var(--fs-h3); lin
 .fmt-toggle button { min-height: 36px; padding: 6px 8px 4px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); font-size: .85rem; font-variant-numeric: tabular-nums; transition: background .2s, color .2s; }
 .fmt-toggle button:hover { color: var(--ink); }
 .fmt-toggle button[aria-pressed="true"] { background: var(--ink); color: var(--cream); }
-.card-actions { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 10px; }
-.card-actions .btn { min-height: 46px; padding-inline: 16px; }
-.card-actions .btn-line { --b-bg: var(--ink); }
 .allergen { display: inline-flex; align-items: center; gap: 6px; font-size: .78rem; color: var(--muted); }
 .allergen::before { content: ""; width: 14px; height: 14px; flex: none; background: var(--sunred); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 1c3 0 5 3 5 7s-2 7-5 7-5-3-5-7 2-7 5-7zm0 2v10M5.5 5.5c1 .7 4 .7 5 0M5 8.5c1.2.7 4.8.7 6 0' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center/contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 1c3 0 5 3 5 7s-2 7-5 7-5-3-5-7 2-7 5-7zm0 2v10M5.5 5.5c1 .7 4 .7 5 0M5 8.5c1.2.7 4.8.7 6 0' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3C/svg%3E") center/contain no-repeat; }
 
@@ -808,9 +801,6 @@ h3 { font-family: var(--display); font-weight: 700; font-size: var(--fs-h3); lin
   .co-nav .btn-solid { max-width: none; }
 }
 @media (max-width: 560px) {
-  .alt-pack { padding: 6px 6px 5px; }
-  .alt-pack img { width: 54px; height: 60px; }
-  .alt-pack span { font-size: .6rem; letter-spacing: .06em; }
   .fmt-toggle button { font-size: .76rem; white-space: nowrap; padding-inline: 4px; }
   .pk-card { grid-template-columns: minmax(0, 1fr); }
   .pk-img img { max-height: 220px; }
@@ -818,9 +808,8 @@ h3 { font-family: var(--display); font-weight: 700; font-size: var(--fs-h3); lin
   .card { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
   .card-stage { padding: 18px 12% 14px; display: grid; align-items: center; }
   .card-body { padding: 14px 14px 14px; }
-  .card-actions { grid-template-columns: minmax(0, 1fr); }
-  .card-actions .btn { min-height: 44px; font-size: .74rem; letter-spacing: .12em; }
   .card-meta { flex-direction: column; align-items: flex-start; gap: 2px; }
+  .card-buy .btn { width: 100%; min-height: 44px; font-size: .74rem; letter-spacing: .12em; }
   .bundle { grid-template-columns: minmax(0, 1fr); }
   .bundle-stage { min-height: 190px; }
   .letter-form .inline { flex-direction: column; }
@@ -870,9 +859,6 @@ h3 { font-family: var(--display); font-weight: 700; font-size: var(--fs-h3); lin
       <button type="button" class="lang-btn" data-lang="en" aria-pressed="true">EN</button>
       <button type="button" class="lang-btn" data-lang="nl" aria-pressed="false">NL</button>
     </div>
-    <button type="button" class="icon-btn" id="soundBtn" aria-pressed="false" aria-label="Sound off. Turn sound on" title="Sound">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path class="spk" d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="wave1" d="M15.5 9a4 4 0 0 1 0 6"/><path class="wave2" d="M18 6.5a7.5 7.5 0 0 1 0 11"/><path class="mute" d="M16 9.5l5 5m0-5l-5 5"/></svg>
-    </button>
     <button type="button" class="cart-btn" id="cartBtn" aria-controls="cart" aria-expanded="false">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.3 11.2a2 2 0 0 1-2 1.8H8.3a2 2 0 0 1-2-1.8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
       <span class="cart-label" data-i18n="nav.cart">Cart</span>
@@ -1782,107 +1768,6 @@ const Util = (() => {
   return { $, $$, clamp, lerp, rand, reduced, coarse, phone, money, priceHTML, store, inkFor, contrast, mix, split, toast, open, close, isOpen };
 })();
 
-/* ---- audio.js ---- */
-/* Sound, synthesized from scratch with the Web Audio API. No samples.
-   Off by default; the speaker button in the nav turns it on. */
-const Sound = (() => {
-  let ctx, master, on = false, windNode, songTimer;
-
-  function init() {
-    if (ctx) return;
-    const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
-    ctx = new AC();
-    master = ctx.createGain(); master.gain.value = 0; master.connect(ctx.destination);
-  }
-  function noiseBuffer(sec = 2, brown = false) {
-    const b = ctx.createBuffer(1, ctx.sampleRate * sec, ctx.sampleRate), d = b.getChannelData(0);
-    let last = 0;
-    for (let i = 0; i < d.length; i++) {
-      const w = Math.random() * 2 - 1;
-      if (brown) { last = (last + .02 * w) / 1.02; d[i] = last * 3.5; } else d[i] = w;
-    }
-    return b;
-  }
-  // soft wind: brown noise, low-passed, with a slow swell
-  function startWind() {
-    const src = ctx.createBufferSource(); src.buffer = noiseBuffer(4, true); src.loop = true;
-    const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 420;
-    const g = ctx.createGain(); g.gain.value = .16;
-    const lfo = ctx.createOscillator(), lg = ctx.createGain(); lfo.frequency.value = .07; lg.gain.value = .09;
-    lfo.connect(lg); lg.connect(g.gain);
-    src.connect(lp); lp.connect(g); g.connect(master); src.start(); lfo.start();
-    windNode = { src, lfo };
-  }
-  // one chirp: a sine sweeping fast, like a small bird
-  function chirp(t0 = ctx.currentTime, base = rnd(2200, 3400), notes = 3) {
-    for (let i = 0; i < notes; i++) {
-      const t = t0 + i * rnd(.07, .12);
-      const o = ctx.createOscillator(), g = ctx.createGain();
-      o.type = 'sine';
-      o.frequency.setValueAtTime(base * rnd(.9, 1.1), t);
-      o.frequency.exponentialRampToValueAtTime(base * rnd(1.25, 1.6), t + .045);
-      o.frequency.exponentialRampToValueAtTime(base * rnd(.8, .95), t + .08);
-      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.07, t + .01); g.gain.exponentialRampToValueAtTime(.0001, t + .09);
-      o.connect(g); g.connect(master); o.start(t); o.stop(t + .1);
-    }
-  }
-  const rnd = (a, b) => a + Math.random() * (b - a);
-  function songLoop() {
-    if (!on) return;
-    chirp(ctx.currentTime, rnd(2000, 3600), Math.floor(rnd(2, 5)));
-    songTimer = setTimeout(songLoop, rnd(3500, 9000));
-  }
-  // a soft pluck (Karplus-Strong flavoured: a short noise burst through a tuned comb)
-  function pluck(freq = 523) {
-    if (!on) return;
-    const t = ctx.currentTime;
-    const src = ctx.createBufferSource(); src.buffer = noiseBuffer(.03);
-    const delay = ctx.createDelay(); delay.delayTime.value = 1 / freq;
-    const fb = ctx.createGain(); fb.gain.value = .93;
-    const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2600;
-    const out = ctx.createGain(); out.gain.setValueAtTime(.5, t); out.gain.exponentialRampToValueAtTime(.0001, t + 1.2);
-    src.connect(delay); delay.connect(lp); lp.connect(fb); fb.connect(delay); lp.connect(out); out.connect(master);
-    src.start(t); setTimeout(() => { try { out.disconnect(); } catch (e) {} }, 1400);
-  }
-  // shell crack: bright click + woody knock
-  function crack(intensity = 1) {
-    if (!on) return;
-    const t = ctx.currentTime;
-    const src = ctx.createBufferSource(); src.buffer = noiseBuffer(.12);
-    const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = rnd(1800, 3200); bp.Q.value = 1.4;
-    const g = ctx.createGain(); g.gain.setValueAtTime(.55 * intensity, t); g.gain.exponentialRampToValueAtTime(.0001, t + .09);
-    src.connect(bp); bp.connect(g); g.connect(master); src.start(t);
-    const o = ctx.createOscillator(), og = ctx.createGain(); o.type = 'triangle';
-    o.frequency.setValueAtTime(rnd(180, 240), t); o.frequency.exponentialRampToValueAtTime(70, t + .12);
-    og.gain.setValueAtTime(.35 * intensity, t); og.gain.exponentialRampToValueAtTime(.0001, t + .14);
-    o.connect(og); og.connect(master); o.start(t); o.stop(t + .16);
-  }
-  function creak(p) { // rising pressure while holding a nut
-    if (!on) return;
-    const t = ctx.currentTime, o = ctx.createOscillator(), g = ctx.createGain();
-    o.type = 'sawtooth'; o.frequency.value = 60 + p * 90;
-    const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 300 + p * 500;
-    g.gain.setValueAtTime(.025, t); g.gain.exponentialRampToValueAtTime(.0001, t + .07);
-    o.connect(lp); lp.connect(g); g.connect(master); o.start(t); o.stop(t + .08);
-  }
-
-  function set(state) {
-    init(); if (!ctx) return;
-    on = state;
-    if (ctx.state === 'suspended') ctx.resume();
-    master.gain.cancelScheduledValues(ctx.currentTime);
-    master.gain.linearRampToValueAtTime(on ? .9 : 0, ctx.currentTime + .6);
-    if (on) { if (!windNode) startWind(); clearTimeout(songTimer); songTimer = setTimeout(songLoop, 1200); }
-    else clearTimeout(songTimer);
-  }
-  return {
-    set, get on() { return on; },
-    pluck, crack, creak,
-    chirp: (n = 3) => { if (on) chirp(ctx.currentTime, rnd(2400, 3400), n); },
-    melody() { if (!on) return; [0, .16, .32, .52].forEach((d, i) => setTimeout(() => pluck([523, 659, 784, 1047][i]), d * 1000)); },
-  };
-})();
-
 /* ---- bird.js ---- */
 /* The araçari: a rigged character drawn in SVG and animated procedurally.
    Parts: tail, far wing, body, chest, folded wing, near wing, head (eye, lid, beak), feet.
@@ -2138,7 +2023,7 @@ const Bird = (() => {
     else if (r < .62) { await hop(1); }
     else if (r < .78) { S.flip *= -1; hopOnce(4); }                                                             // look the other way
     else if (r < .9) { T.tail = -14; await wait(220); T.tail = 10; await wait(220); T.tail = 0; }               // tail flick
-    else { T.beak = 1; Sound.chirp(3); await wait(160); T.beak = 0; await wait(120); T.beak = .8; await wait(140); T.beak = 0; }
+    else { T.beak = 1; await wait(160); T.beak = 0; await wait(120); T.beak = .8; await wait(140); T.beak = 0; }
   }
   async function happy(ms = 900) { T.happy = 1; T.lid = 1; await wait(ms); T.happy = 0; T.lid = .2; }
 
@@ -2182,7 +2067,6 @@ const Bird = (() => {
         else {
           S.flying = false; S.squash = .78; S.hop = 0; T.lid = .2;
           mode = opts.after || 'perched';
-          Sound.chirp(2);
           setTimeout(() => hopOnce(6), 160);
           res('landed');
         }
@@ -2221,7 +2105,7 @@ const Bird = (() => {
         else {
           S.flying = false; S.squash = .78; S.hop = 0; T.lid = .2; pageFlight = false;
           mode = opts.after || 'perched';
-          Sound.chirp(2); setTimeout(() => hopOnce(6), 160);
+          setTimeout(() => hopOnce(6), 160);
           res('landed');
         }
       };
@@ -2251,7 +2135,7 @@ const Bird = (() => {
     if (busy || S.flying) return; busy = true;
     T.headRot = 40; await wait(260);
     parts.pecan.setAttribute('opacity', '1'); T.headRot = -6; T.beak = .5; await wait(260);
-    for (let i = 0; i < 2; i++) { T.beak = .05; T.headRot = 14; await wait(130); Sound.crack(.5); T.beak = .45; T.headRot = -4; await wait(170); }
+    for (let i = 0; i < 2; i++) { T.beak = .05; T.headRot = 14; await wait(130); T.beak = .45; T.headRot = -4; await wait(170); }
     parts.pecan.setAttribute('opacity', '0');
     const s = S.size / 200, bx = S.x + (190 - ANCHOR.x) * s * S.flip, by = S.y + (80 - ANCHOR.y) * s;
     T.headRot = -30; T.beak = 1;
@@ -2261,7 +2145,6 @@ const Bird = (() => {
   async function celebrate() {
     busy = true; happy(1600);
     burst(S.x, S.y - S.size * .6, 60, ['#e88028', '#c1d04a', '#58b7e8', '#f6d641', '#e9601c', '#8a5a2b', '#1c5fa3'], { up: 560, spread: 600, confetti: true });
-    Sound.melody();
     for (let i = 0; i < 4; i++) { S.flying = true; S.flapSpeed = 30; hopOnce(22); await wait(300); }
     S.flying = false; busy = false;
   }
@@ -2276,7 +2159,7 @@ const Bird = (() => {
     parts.pecan.setAttribute('opacity', '0'); T.beak = 1;
     const s = S.size / 200, bx = S.x + (190 - ANCHOR.x) * s * S.flip, by = S.y + (80 - ANCHOR.y) * s;
     const p = spawn(bx, by, '#8a5a2b', { vx: -S.flip * 40, vy: -420, life: .95, size: 11 });
-    await wait(900); T.headRot = -10; T.beak = .9; await wait(120); T.beak = 0; p.life = 0; Sound.crack(.3); happy(600); busy = false;
+    await wait(900); T.headRot = -10; T.beak = .9; await wait(120); T.beak = 0; p.life = 0; happy(600); busy = false;
   }
   async function showBeak() { busy = true; T.beak = 1; T.headRot = -18; await wait(1100); T.beak = 0; T.headRot = 0; busy = false; }
   async function wave(on) { T.wave = on ? 1 : 0; if (on) happy(1200); }
@@ -2295,7 +2178,7 @@ const Bird = (() => {
     const r1 = () => { const r = toEl.getBoundingClientRect(); return { x: r.left + r.width * .5, y: Math.max(r.top - 4, S.size * .92 + 8) }; };
     await flyTo(r1, { after: 'busy', speed: .75, lift: .8 });
     parts.carry.setAttribute('opacity', '0');
-    Cart.bump(); say(I18N.s().bird.cart, 1400); Sound.pluck(784);
+    Cart.bump(); say(I18N.s().bird.cart, 1400);
     await wait(420);
     delivering = false; busy = false;
     perch = null; perchOn(back || App.bestPerch());
@@ -2321,7 +2204,6 @@ const Bird = (() => {
     clicks++; clearTimeout(clickTimer); clickTimer = setTimeout(() => (clicks = 0), 2600);
     if (clicks === 7) { clicks = 0; secret(); return; }
     if (S.sleep > .5) { sleep(false); return; }
-    Sound.chirp(2);
     if (clicks % 3 === 1) crack(); else hop(1);
   }
   async function secret() {
@@ -2340,7 +2222,7 @@ const Bird = (() => {
       };
       requestAnimationFrame(step);
     });
-    S.flying = false; Sound.melody(); say(I18N.s().bird.secret, 7000);
+    S.flying = false; say(I18N.s().bird.secret, 7000);
     await wait(800); S.gold = 0; busy = false; perch = null; perchOn(p || App.bestPerch());
   }
 
@@ -2731,7 +2613,7 @@ const Hero = (() => {
   function choose(i) {
     pausedUntil = performance.now() + 14000;
     show(i, { dir: i > index ? 1 : -1 });
-    if (Bird.currentPerch()?.el === pack.el && !Bird.busy) { Bird.hop(2); Sound.chirp(2); }
+    if (Bird.currentPerch()?.el === pack.el && !Bird.busy) { Bird.hop(2); }
   }
   function renderSwatches() {
     const box = document.getElementById('heroSwatches');
@@ -3003,7 +2885,6 @@ const Cart = (() => {
     save(); render();
     const name = item.type === 'flavour' ? fname(byId(item.id)) : bundleById(item.id).name[I18N.lang];
     Util.toast(I18N.s().added(name));
-    Sound.pluck(659);
     const img = item.type === 'flavour' ? packImg(byId(item.id), fmtOf(item)) : byId((bundleById(item.id).contents === 'all' ? DATA.flavours[0].id : bundleById(item.id).contents[0])).img.front;
     if (fromEl) Bird.deliver(fromEl, img, $('#cartBtn')); else bump();
   }
@@ -3117,20 +2998,16 @@ const Shop = (() => {
       <article class="card" data-id="${f.id}" style="--c-body:${f.colors.body};--c-band:${f.colors.band};--c-strip:${f.colors.strip};--c-ink:${Util.inkFor(f.colors.body)}">
         <div class="card-stage" data-cursor="drag">
           <div class="pack-slot" tabindex="0" role="img" aria-label="${fname(f)} pack. ${s.rotate}"></div>
-          <span class="rotate-hint" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/></svg></span>
-          <button type="button" class="alt-pack" data-alt="tube" aria-label="${s.alsoIn(fmtName('tube'))}"><img src="${f.img.tube}" alt=""><span>${s.alsoShort(DATA.formats.tube.g)}</span></button>
         </div>
         <div class="card-body">
-          <h3>${fname(f)}</h3>
+          <h3><button type="button" class="card-title" data-detail="${f.id}" aria-label="${s.details}: ${fname(f)}">${fname(f)}</button></h3>
           <p class="card-notes">${f.note[I18N.lang]}</p>
-          <span class="allergen">${f.allergen[I18N.lang]}</span>
           <div class="fmt-toggle" role="group" aria-label="${s.format}: ${fname(f)}">
             ${Object.keys(DATA.formats).map(k => `<button type="button" data-fmt="${k}" aria-pressed="${k === 'pouch'}">${fmtName(k)}</button>`).join('')}
           </div>
-          <div class="card-meta"><span class="price">${priceHTML(f.price.pouch)}</span></div>
-          <div class="card-actions">
+          <div class="card-buy">
+            <span class="price">${priceHTML(f.price.pouch)}</span>
             <button type="button" class="btn btn-solid magnetic" data-add="${f.id}" data-fmt="pouch">${s.addToCart}</button>
-            <button type="button" class="btn btn-line" data-detail="${f.id}" aria-label="${s.details}: ${fname(f)}">${s.details}</button>
           </div>
         </div>
       </article>`).join('');
@@ -3139,20 +3016,13 @@ const Shop = (() => {
       packs.push(p);
       const f = DATA.flavours[i];
       // pouch / tube: swaps the 3D pack, the price and what "Add to cart" adds.
-      // The small pack in the corner always shows the other format, so both are visible.
-      const alt = c.querySelector('.alt-pack');
       const setFmt = fmt => {
-        const other = fmt === 'tube' ? 'pouch' : 'tube', s = I18N.s();
         c.querySelectorAll('.fmt-toggle button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.fmt === fmt)));
-        c.querySelector('.card-meta .price').innerHTML = priceHTML(f.price[fmt]);
+        c.querySelector('.card-buy .price').innerHTML = priceHTML(f.price[fmt]);
         c.querySelector('[data-add]').dataset.fmt = fmt;
-        alt.dataset.alt = other; alt.querySelector('img').src = packImg(f, other);
-        alt.querySelector('span').textContent = s.alsoShort(DATA.formats[other].g);
-        alt.setAttribute('aria-label', s.alsoIn(fmtName(other)));
         p.setFmt(fmt);
       };
       c.querySelector('.fmt-toggle').addEventListener('click', e => { const b = e.target.closest('[data-fmt]'); if (b) setFmt(b.dataset.fmt); });
-      alt.addEventListener('click', e => { e.stopPropagation(); setFmt(alt.dataset.alt); });
       c.addEventListener('pointerenter', () => World.set(f, { duration: .8 }));
       c.addEventListener('focusin', () => World.set(f, { duration: .8 }));
     });
@@ -3555,7 +3425,6 @@ const Pairing = (() => {
       clearInterval(typer); let i = 0;
       setTimeout(() => { typer = setInterval(() => { why.textContent = text.slice(0, ++i); if (i >= text.length) clearInterval(typer); }, 16); }, 1000);
     } else why.textContent = text;
-    Sound.pluck(523);
     // the bird hops over to the glass
     if (Bird.currentPerch()?.el?.id === 'pairStage') Bird.hop(1);
   }
@@ -3862,7 +3731,7 @@ const Quiz = (() => {
       gsap.from(box.querySelectorAll('.qr-copy > *'), { y: 18, opacity: 0, duration: .7, ease: 'expo.out', stagger: .06, delay: first ? .55 : .15 });
       setTimeout(() => pack && pack.spin(1), first ? 900 : 300);
     }
-    if (first) { Sound.melody(); Bird.happy(1200); }
+    if (first) { Bird.happy(1200); }
     renderCard(1);
     // phones: the result sits below the questions, so bring it into view
     if (matchMedia('(max-width: 820px)').matches) setTimeout(() => stage.scrollIntoView({ behavior: Util.reduced.matches ? 'auto' : 'smooth', block: 'center' }), first ? 300 : 0);
@@ -3871,7 +3740,6 @@ const Quiz = (() => {
   function answer(i) {
     answers[step] = i;
     updateGrid();
-    Sound.pluck(523 + step * 70);
     if (step < Q().length - 1) { step++; renderCard(1); }
     else setTimeout(() => showResult(scores()[0].f, true), Util.reduced.matches ? 0 : 450);   // let the grid settle first
   }
@@ -4040,7 +3908,8 @@ const App = (() => {
     });
     const batch = (sel, vars = {}) => ScrollTrigger.batch(sel, {
       start: 'top 90%', once: true,
-      onEnter: els => gsap.from(els, { y: 40, opacity: 0, duration: 1, ease: 'expo.out', stagger: .08, ...vars, overwrite: true }),
+      // fromTo with an explicit end, so a second trigger mid-tween cannot freeze a card half-way down
+      onEnter: els => gsap.fromTo(els, { y: 40, opacity: 0, ...vars }, { y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: .08, overwrite: true, clearProps: 'transform,opacity' }),
     });
     batch('.card'); batch('.bundle'); batch('.fact'); batch('.retail-points li'); batch('.ship-facts li', { y: 14 }); batch('#farmPoints li', { y: 20 });
     // the hero headline gets lighter as it leaves
@@ -4127,12 +3996,6 @@ const App = (() => {
       m.querySelector('a').focus();
     });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
-    $('#soundBtn').addEventListener('click', () => {
-      const on = !Sound.on; Sound.set(on);
-      $('#soundBtn').setAttribute('aria-pressed', String(on));
-      $('#soundBtn').setAttribute('aria-label', on ? (I18N.lang === 'nl' ? 'Geluid aan. Zet geluid uit' : 'Sound on. Turn sound off') : (I18N.lang === 'nl' ? 'Geluid uit. Zet geluid aan' : 'Sound off. Turn sound on'));
-      if (on) Sound.chirp(3);
-    });
     $$('.lang-btn').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
   }
   function setLang(lang) {
@@ -4188,7 +4051,7 @@ const App = (() => {
         gsap.fromTo(ok.querySelector('.envelope'), { y: 40, rotate: -12, scale: .6 }, { y: 0, rotate: 0, scale: 1, duration: 1, ease: 'elastic.out(1,.5)' });
         gsap.from(ok.querySelectorAll('h3, p'), { y: 16, opacity: 0, stagger: .1, delay: .3, duration: .8, ease: 'expo.out' });
       }
-      Bird.happy(1200); Sound.melody();
+      Bird.happy(1200);
     });
     const lf = $('#letterForm');
     lf.addEventListener('submit', e => {
@@ -4196,7 +4059,7 @@ const App = (() => {
       const em = $('#nlEmail'), ok = emailOk(em.value) && $('#nlConsent').checked;
       $('#letterMsg').textContent = ok ? I18N.s().letterOk : I18N.s().letterErr;
       fieldError(em, emailOk(em.value) ? '' : I18N.s().co.err.email);
-      if (ok) { lf.reset(); Bird.happy(1200); Bird.hop(2); Sound.melody(); }
+      if (ok) { lf.reset(); Bird.happy(1200); Bird.hop(2); }
     });
   }
 
@@ -4210,7 +4073,7 @@ const App = (() => {
       if (act === 'toss') Bird.toss();
       if (act === 'beak') Bird.showBeak();
       if (act === 'hop') Bird.hop(3);
-      if (act === 'sing') { Sound.chirp(5); Bird.happy(1200); }
+      if (act === 'sing') { Bird.happy(1200); }
     });
     // wave goodbye at the newsletter; fall asleep if you linger at the very bottom
     let waved = false, sleepTimer = null, asleep = false;

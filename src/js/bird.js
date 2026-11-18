@@ -252,7 +252,7 @@ const Bird = (() => {
     else if (r < .62) { await hop(1); }
     else if (r < .78) { S.flip *= -1; hopOnce(4); }                                                             // look the other way
     else if (r < .9) { T.tail = -14; await wait(220); T.tail = 10; await wait(220); T.tail = 0; }               // tail flick
-    else { T.beak = 1; Sound.chirp(3); await wait(160); T.beak = 0; await wait(120); T.beak = .8; await wait(140); T.beak = 0; }
+    else { T.beak = 1; await wait(160); T.beak = 0; await wait(120); T.beak = .8; await wait(140); T.beak = 0; }
   }
   async function happy(ms = 900) { T.happy = 1; T.lid = 1; await wait(ms); T.happy = 0; T.lid = .2; }
 
@@ -296,7 +296,6 @@ const Bird = (() => {
         else {
           S.flying = false; S.squash = .78; S.hop = 0; T.lid = .2;
           mode = opts.after || 'perched';
-          Sound.chirp(2);
           setTimeout(() => hopOnce(6), 160);
           res('landed');
         }
@@ -335,7 +334,7 @@ const Bird = (() => {
         else {
           S.flying = false; S.squash = .78; S.hop = 0; T.lid = .2; pageFlight = false;
           mode = opts.after || 'perched';
-          Sound.chirp(2); setTimeout(() => hopOnce(6), 160);
+          setTimeout(() => hopOnce(6), 160);
           res('landed');
         }
       };
@@ -365,7 +364,7 @@ const Bird = (() => {
     if (busy || S.flying) return; busy = true;
     T.headRot = 40; await wait(260);
     parts.pecan.setAttribute('opacity', '1'); T.headRot = -6; T.beak = .5; await wait(260);
-    for (let i = 0; i < 2; i++) { T.beak = .05; T.headRot = 14; await wait(130); Sound.crack(.5); T.beak = .45; T.headRot = -4; await wait(170); }
+    for (let i = 0; i < 2; i++) { T.beak = .05; T.headRot = 14; await wait(130); T.beak = .45; T.headRot = -4; await wait(170); }
     parts.pecan.setAttribute('opacity', '0');
     const s = S.size / 200, bx = S.x + (190 - ANCHOR.x) * s * S.flip, by = S.y + (80 - ANCHOR.y) * s;
     T.headRot = -30; T.beak = 1;
@@ -375,7 +374,6 @@ const Bird = (() => {
   async function celebrate() {
     busy = true; happy(1600);
     burst(S.x, S.y - S.size * .6, 60, ['#e88028', '#c1d04a', '#58b7e8', '#f6d641', '#e9601c', '#8a5a2b', '#1c5fa3'], { up: 560, spread: 600, confetti: true });
-    Sound.melody();
     for (let i = 0; i < 4; i++) { S.flying = true; S.flapSpeed = 30; hopOnce(22); await wait(300); }
     S.flying = false; busy = false;
   }
@@ -390,7 +388,7 @@ const Bird = (() => {
     parts.pecan.setAttribute('opacity', '0'); T.beak = 1;
     const s = S.size / 200, bx = S.x + (190 - ANCHOR.x) * s * S.flip, by = S.y + (80 - ANCHOR.y) * s;
     const p = spawn(bx, by, '#8a5a2b', { vx: -S.flip * 40, vy: -420, life: .95, size: 11 });
-    await wait(900); T.headRot = -10; T.beak = .9; await wait(120); T.beak = 0; p.life = 0; Sound.crack(.3); happy(600); busy = false;
+    await wait(900); T.headRot = -10; T.beak = .9; await wait(120); T.beak = 0; p.life = 0; happy(600); busy = false;
   }
   async function showBeak() { busy = true; T.beak = 1; T.headRot = -18; await wait(1100); T.beak = 0; T.headRot = 0; busy = false; }
   async function wave(on) { T.wave = on ? 1 : 0; if (on) happy(1200); }
@@ -409,7 +407,7 @@ const Bird = (() => {
     const r1 = () => { const r = toEl.getBoundingClientRect(); return { x: r.left + r.width * .5, y: Math.max(r.top - 4, S.size * .92 + 8) }; };
     await flyTo(r1, { after: 'busy', speed: .75, lift: .8 });
     parts.carry.setAttribute('opacity', '0');
-    Cart.bump(); say(I18N.s().bird.cart, 1400); Sound.pluck(784);
+    Cart.bump(); say(I18N.s().bird.cart, 1400);
     await wait(420);
     delivering = false; busy = false;
     perch = null; perchOn(back || App.bestPerch());
@@ -435,7 +433,6 @@ const Bird = (() => {
     clicks++; clearTimeout(clickTimer); clickTimer = setTimeout(() => (clicks = 0), 2600);
     if (clicks === 7) { clicks = 0; secret(); return; }
     if (S.sleep > .5) { sleep(false); return; }
-    Sound.chirp(2);
     if (clicks % 3 === 1) crack(); else hop(1);
   }
   async function secret() {
@@ -454,7 +451,7 @@ const Bird = (() => {
       };
       requestAnimationFrame(step);
     });
-    S.flying = false; Sound.melody(); say(I18N.s().bird.secret, 7000);
+    S.flying = false; say(I18N.s().bird.secret, 7000);
     await wait(800); S.gold = 0; busy = false; perch = null; perchOn(p || App.bestPerch());
   }
 

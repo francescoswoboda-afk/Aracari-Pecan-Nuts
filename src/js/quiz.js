@@ -83,7 +83,7 @@ const Quiz = (() => {
       gsap.from(box.querySelectorAll('.qr-copy > *'), { y: 18, opacity: 0, duration: .7, ease: 'expo.out', stagger: .06, delay: first ? .55 : .15 });
       setTimeout(() => pack && pack.spin(1), first ? 900 : 300);
     }
-    if (first) { Sound.melody(); Bird.happy(1200); }
+    if (first) { Bird.happy(1200); }
     renderCard(1);
     // phones: the result sits below the questions, so bring it into view
     if (matchMedia('(max-width: 820px)').matches) setTimeout(() => stage.scrollIntoView({ behavior: Util.reduced.matches ? 'auto' : 'smooth', block: 'center' }), first ? 300 : 0);
@@ -92,7 +92,6 @@ const Quiz = (() => {
   function answer(i) {
     answers[step] = i;
     updateGrid();
-    Sound.pluck(523 + step * 70);
     if (step < Q().length - 1) { step++; renderCard(1); }
     else setTimeout(() => showResult(scores()[0].f, true), Util.reduced.matches ? 0 : 450);   // let the grid settle first
   }

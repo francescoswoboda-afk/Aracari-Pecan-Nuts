@@ -12,7 +12,7 @@ const path = require('path');
 
 const root = __dirname;
 const src = p => path.join(root, 'src', p);
-const SCRIPTS = ['data.js', 'i18n.js', 'util.js', 'audio.js', 'bird.js', 'pack.js', 'hero.js', 'origin.js', 'shop.js', 'checkout.js', 'pairing.js', 'farm.js', 'quiz.js', 'main.js'];
+const SCRIPTS = ['data.js', 'i18n.js', 'util.js', 'bird.js', 'pack.js', 'hero.js', 'origin.js', 'shop.js', 'checkout.js', 'pairing.js', 'farm.js', 'quiz.js', 'main.js'];
 
 const mime = { '.webp': 'image/webp', '.ico': 'image/x-icon', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml' };
 const assetCache = {};

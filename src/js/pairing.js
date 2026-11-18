@@ -51,7 +51,6 @@ const Pairing = (() => {
       clearInterval(typer); let i = 0;
       setTimeout(() => { typer = setInterval(() => { why.textContent = text.slice(0, ++i); if (i >= text.length) clearInterval(typer); }, 16); }, 1000);
     } else why.textContent = text;
-    Sound.pluck(523);
     // the bird hops over to the glass
     if (Bird.currentPerch()?.el?.id === 'pairStage') Bird.hop(1);
   }
