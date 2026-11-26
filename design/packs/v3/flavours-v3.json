@@ -5,20 +5,20 @@
   "strip_text": "SELECTED BRAZILIAN PECANS",
   "formats": [
     {
-      "id": "pouch-250g",
+      "id": "pouch-125g",
       "name": "Stand-up pouch",
-      "net_weight_g": 250,
-      "size_mm": "150 x 220, 80 mm bottom gusset",
-      "capacity_l": 0.9,
+      "net_weight_g": 125,
+      "size_mm": "120 x 190, 70 mm bottom gusset [VERIFY]",
+      "capacity_l": 0.5,
       "material": "mono-PE with a thin EVOH oxygen barrier, matte varnish, PE zip; nitrogen flushed (O2 < 2%)",
       "disposal": "Plastic bin (PMD) in NL and BE"
     },
     {
-      "id": "tube-500g",
+      "id": "tube-250g",
       "name": "Paper tube",
-      "net_weight_g": 500,
-      "size_mm": "diameter 105 x 210",
-      "capacity_l": 1.6,
+      "net_weight_g": 250,
+      "size_mm": "diameter 85 x 170 [VERIFY]",
+      "capacity_l": 0.84,
       "material": "wound paperboard (90%+ paper) with barrier liner, peel-off membrane, metal slip lid; nitrogen flushed (O2 < 2%)",
       "disposal": "Tube: paper bin. Lid: PMD bin. Membrane: depends on supplier [VERIFY]"
     }
@@ -42,21 +42,21 @@
       "allergens_on_pack": "pecans (tree nuts)",
       "images": {
         "pouch_front": {
-          "png": "packs/v3/salted-caramel/aracari-salted-caramel-pouch-250g-front.png",
-          "webp": "packs/v3/salted-caramel/aracari-salted-caramel-pouch-250g-front.webp",
-          "small_webp": "packs/v3/salted-caramel/aracari-salted-caramel-pouch-250g-front-600.webp"
+          "png": "packs/v3/salted-caramel/aracari-salted-caramel-pouch-125g-front.png",
+          "webp": "packs/v3/salted-caramel/aracari-salted-caramel-pouch-125g-front.webp",
+          "small_webp": "packs/v3/salted-caramel/aracari-salted-caramel-pouch-125g-front-600.webp"
         },
         "pouch_back": {
-          "png": "packs/v3/salted-caramel/aracari-salted-caramel-pouch-250g-back.png",
-          "webp": "packs/v3/salted-caramel/aracari-salted-caramel-pouch-250g-back.webp",
-          "small_webp": "packs/v3/salted-caramel/aracari-salted-caramel-pouch-250g-back-600.webp"
+          "png": "packs/v3/salted-caramel/aracari-salted-caramel-pouch-125g-back.png",
+          "webp": "packs/v3/salted-caramel/aracari-salted-caramel-pouch-125g-back.webp",
+          "small_webp": "packs/v3/salted-caramel/aracari-salted-caramel-pouch-125g-back-600.webp"
         },
         "tube_front": {
-          "png": "packs/v3/salted-caramel/aracari-salted-caramel-tube-500g-front.png",
-          "webp": "packs/v3/salted-caramel/aracari-salted-caramel-tube-500g-front.webp",
-          "small_webp": "packs/v3/salted-caramel/aracari-salted-caramel-tube-500g-front-600.webp"
+          "png": "packs/v3/salted-caramel/aracari-salted-caramel-tube-250g-front.png",
+          "webp": "packs/v3/salted-caramel/aracari-salted-caramel-tube-250g-front.webp",
+          "small_webp": "packs/v3/salted-caramel/aracari-salted-caramel-tube-250g-front-600.webp"
         },
-        "tube_label_flat": "packs/v3/salted-caramel/aracari-salted-caramel-tube-500g-label-flat.jpg"
+        "tube_label_flat": "packs/v3/salted-caramel/aracari-salted-caramel-tube-250g-label-flat.jpg"
       }
     },
     {
@@ -77,21 +77,21 @@
       "allergens_on_pack": "pecans (tree nuts); check milk and soy in the chocolate [VERIFY]",
       "images": {
         "pouch_front": {
-          "png": "packs/v3/chocolate/aracari-chocolate-pouch-250g-front.png",
-          "webp": "packs/v3/chocolate/aracari-chocolate-pouch-250g-front.webp",
-          "small_webp": "packs/v3/chocolate/aracari-chocolate-pouch-250g-front-600.webp"
+          "png": "packs/v3/chocolate/aracari-chocolate-pouch-125g-front.png",
+          "webp": "packs/v3/chocolate/aracari-chocolate-pouch-125g-front.webp",
+          "small_webp": "packs/v3/chocolate/aracari-chocolate-pouch-125g-front-600.webp"
         },
         "pouch_back": {
-          "png": "packs/v3/chocolate/aracari-chocolate-pouch-250g-back.png",
-          "webp": "packs/v3/chocolate/aracari-chocolate-pouch-250g-back.webp",
-          "small_webp": "packs/v3/chocolate/aracari-chocolate-pouch-250g-back-600.webp"
+          "png": "packs/v3/chocolate/aracari-chocolate-pouch-125g-back.png",
+          "webp": "packs/v3/chocolate/aracari-chocolate-pouch-125g-back.webp",
+          "small_webp": "packs/v3/chocolate/aracari-chocolate-pouch-125g-back-600.webp"
         },
         "tube_front": {
-          "png": "packs/v3/chocolate/aracari-chocolate-tube-500g-front.png",
-          "webp": "packs/v3/chocolate/aracari-chocolate-tube-500g-front.webp",
-          "small_webp": "packs/v3/chocolate/aracari-chocolate-tube-500g-front-600.webp"
+          "png": "packs/v3/chocolate/aracari-chocolate-tube-250g-front.png",
+          "webp": "packs/v3/chocolate/aracari-chocolate-tube-250g-front.webp",
+          "small_webp": "packs/v3/chocolate/aracari-chocolate-tube-250g-front-600.webp"
         },
-        "tube_label_flat": "packs/v3/chocolate/aracari-chocolate-tube-500g-label-flat.jpg"
+        "tube_label_flat": "packs/v3/chocolate/aracari-chocolate-tube-250g-label-flat.jpg"
       }
     },
     {
@@ -112,21 +112,21 @@
       "allergens_on_pack": "pecans (tree nuts); check milk and soy in the chocolate [VERIFY]",
       "images": {
         "pouch_front": {
-          "png": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-pouch-250g-front.png",
-          "webp": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-pouch-250g-front.webp",
-          "small_webp": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-pouch-250g-front-600.webp"
+          "png": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-pouch-125g-front.png",
+          "webp": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-pouch-125g-front.webp",
+          "small_webp": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-pouch-125g-front-600.webp"
         },
         "pouch_back": {
-          "png": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-pouch-250g-back.png",
-          "webp": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-pouch-250g-back.webp",
-          "small_webp": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-pouch-250g-back-600.webp"
+          "png": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-pouch-125g-back.png",
+          "webp": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-pouch-125g-back.webp",
+          "small_webp": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-pouch-125g-back-600.webp"
         },
         "tube_front": {
-          "png": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-tube-500g-front.png",
-          "webp": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-tube-500g-front.webp",
-          "small_webp": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-tube-500g-front-600.webp"
+          "png": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-tube-250g-front.png",
+          "webp": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-tube-250g-front.webp",
+          "small_webp": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-tube-250g-front-600.webp"
         },
-        "tube_label_flat": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-tube-500g-label-flat.jpg"
+        "tube_label_flat": "packs/v3/chocolate-sea-salt/aracari-chocolate-sea-salt-tube-250g-label-flat.jpg"
       }
     },
     {
@@ -147,21 +147,21 @@
       "allergens_on_pack": "pecans (tree nuts)",
       "images": {
         "pouch_front": {
-          "png": "packs/v3/caramel/aracari-caramel-pouch-250g-front.png",
-          "webp": "packs/v3/caramel/aracari-caramel-pouch-250g-front.webp",
-          "small_webp": "packs/v3/caramel/aracari-caramel-pouch-250g-front-600.webp"
+          "png": "packs/v3/caramel/aracari-caramel-pouch-125g-front.png",
+          "webp": "packs/v3/caramel/aracari-caramel-pouch-125g-front.webp",
+          "small_webp": "packs/v3/caramel/aracari-caramel-pouch-125g-front-600.webp"
         },
         "pouch_back": {
-          "png": "packs/v3/caramel/aracari-caramel-pouch-250g-back.png",
-          "webp": "packs/v3/caramel/aracari-caramel-pouch-250g-back.webp",
-          "small_webp": "packs/v3/caramel/aracari-caramel-pouch-250g-back-600.webp"
+          "png": "packs/v3/caramel/aracari-caramel-pouch-125g-back.png",
+          "webp": "packs/v3/caramel/aracari-caramel-pouch-125g-back.webp",
+          "small_webp": "packs/v3/caramel/aracari-caramel-pouch-125g-back-600.webp"
         },
         "tube_front": {
-          "png": "packs/v3/caramel/aracari-caramel-tube-500g-front.png",
-          "webp": "packs/v3/caramel/aracari-caramel-tube-500g-front.webp",
-          "small_webp": "packs/v3/caramel/aracari-caramel-tube-500g-front-600.webp"
+          "png": "packs/v3/caramel/aracari-caramel-tube-250g-front.png",
+          "webp": "packs/v3/caramel/aracari-caramel-tube-250g-front.webp",
+          "small_webp": "packs/v3/caramel/aracari-caramel-tube-250g-front-600.webp"
         },
-        "tube_label_flat": "packs/v3/caramel/aracari-caramel-tube-500g-label-flat.jpg"
+        "tube_label_flat": "packs/v3/caramel/aracari-caramel-tube-250g-label-flat.jpg"
       }
     },
     {
@@ -182,21 +182,21 @@
       "allergens_on_pack": "pecans (tree nuts) and milk",
       "images": {
         "pouch_front": {
-          "png": "packs/v3/doce-de-leite/aracari-doce-de-leite-pouch-250g-front.png",
-          "webp": "packs/v3/doce-de-leite/aracari-doce-de-leite-pouch-250g-front.webp",
-          "small_webp": "packs/v3/doce-de-leite/aracari-doce-de-leite-pouch-250g-front-600.webp"
+          "png": "packs/v3/doce-de-leite/aracari-doce-de-leite-pouch-125g-front.png",
+          "webp": "packs/v3/doce-de-leite/aracari-doce-de-leite-pouch-125g-front.webp",
+          "small_webp": "packs/v3/doce-de-leite/aracari-doce-de-leite-pouch-125g-front-600.webp"
         },
         "pouch_back": {
-          "png": "packs/v3/doce-de-leite/aracari-doce-de-leite-pouch-250g-back.png",
-          "webp": "packs/v3/doce-de-leite/aracari-doce-de-leite-pouch-250g-back.webp",
-          "small_webp": "packs/v3/doce-de-leite/aracari-doce-de-leite-pouch-250g-back-600.webp"
+          "png": "packs/v3/doce-de-leite/aracari-doce-de-leite-pouch-125g-back.png",
+          "webp": "packs/v3/doce-de-leite/aracari-doce-de-leite-pouch-125g-back.webp",
+          "small_webp": "packs/v3/doce-de-leite/aracari-doce-de-leite-pouch-125g-back-600.webp"
         },
         "tube_front": {
-          "png": "packs/v3/doce-de-leite/aracari-doce-de-leite-tube-500g-front.png",
-          "webp": "packs/v3/doce-de-leite/aracari-doce-de-leite-tube-500g-front.webp",
-          "small_webp": "packs/v3/doce-de-leite/aracari-doce-de-leite-tube-500g-front-600.webp"
+          "png": "packs/v3/doce-de-leite/aracari-doce-de-leite-tube-250g-front.png",
+          "webp": "packs/v3/doce-de-leite/aracari-doce-de-leite-tube-250g-front.webp",
+          "small_webp": "packs/v3/doce-de-leite/aracari-doce-de-leite-tube-250g-front-600.webp"
         },
-        "tube_label_flat": "packs/v3/doce-de-leite/aracari-doce-de-leite-tube-500g-label-flat.jpg"
+        "tube_label_flat": "packs/v3/doce-de-leite/aracari-doce-de-leite-tube-250g-label-flat.jpg"
       }
     },
     {
@@ -217,21 +217,21 @@
       "allergens_on_pack": "pecans (tree nuts)",
       "images": {
         "pouch_front": {
-          "png": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-pouch-250g-front.png",
-          "webp": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-pouch-250g-front.webp",
-          "small_webp": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-pouch-250g-front-600.webp"
+          "png": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-pouch-125g-front.png",
+          "webp": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-pouch-125g-front.webp",
+          "small_webp": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-pouch-125g-front-600.webp"
         },
         "pouch_back": {
-          "png": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-pouch-250g-back.png",
-          "webp": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-pouch-250g-back.webp",
-          "small_webp": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-pouch-250g-back-600.webp"
+          "png": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-pouch-125g-back.png",
+          "webp": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-pouch-125g-back.webp",
+          "small_webp": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-pouch-125g-back-600.webp"
         },
         "tube_front": {
-          "png": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-tube-500g-front.png",
-          "webp": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-tube-500g-front.webp",
-          "small_webp": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-tube-500g-front-600.webp"
+          "png": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-tube-250g-front.png",
+          "webp": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-tube-250g-front.webp",
+          "small_webp": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-tube-250g-front-600.webp"
         },
-        "tube_label_flat": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-tube-500g-label-flat.jpg"
+        "tube_label_flat": "packs/v3/cinnamon-sugar/aracari-cinnamon-sugar-tube-250g-label-flat.jpg"
       }
     },
     {
@@ -252,21 +252,21 @@
       "allergens_on_pack": "pecans (tree nuts); check milk and soy in the chocolate [VERIFY]",
       "images": {
         "pouch_front": {
-          "png": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-pouch-250g-front.png",
-          "webp": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-pouch-250g-front.webp",
-          "small_webp": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-pouch-250g-front-600.webp"
+          "png": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-pouch-125g-front.png",
+          "webp": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-pouch-125g-front.webp",
+          "small_webp": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-pouch-125g-front-600.webp"
         },
         "pouch_back": {
-          "png": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-pouch-250g-back.png",
-          "webp": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-pouch-250g-back.webp",
-          "small_webp": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-pouch-250g-back-600.webp"
+          "png": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-pouch-125g-back.png",
+          "webp": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-pouch-125g-back.webp",
+          "small_webp": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-pouch-125g-back-600.webp"
         },
         "tube_front": {
-          "png": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-tube-500g-front.png",
-          "webp": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-tube-500g-front.webp",
-          "small_webp": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-tube-500g-front-600.webp"
+          "png": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-tube-250g-front.png",
+          "webp": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-tube-250g-front.webp",
+          "small_webp": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-tube-250g-front-600.webp"
         },
-        "tube_label_flat": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-tube-500g-label-flat.jpg"
+        "tube_label_flat": "packs/v3/coffee-chocolate/aracari-coffee-chocolate-tube-250g-label-flat.jpg"
       }
     },
     {
@@ -287,21 +287,21 @@
       "allergens_on_pack": "pecans (tree nuts)",
       "images": {
         "pouch_front": {
-          "png": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-pouch-250g-front.png",
-          "webp": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-pouch-250g-front.webp",
-          "small_webp": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-pouch-250g-front-600.webp"
+          "png": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-pouch-125g-front.png",
+          "webp": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-pouch-125g-front.webp",
+          "small_webp": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-pouch-125g-front-600.webp"
         },
         "pouch_back": {
-          "png": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-pouch-250g-back.png",
-          "webp": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-pouch-250g-back.webp",
-          "small_webp": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-pouch-250g-back-600.webp"
+          "png": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-pouch-125g-back.png",
+          "webp": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-pouch-125g-back.webp",
+          "small_webp": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-pouch-125g-back-600.webp"
         },
         "tube_front": {
-          "png": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-tube-500g-front.png",
-          "webp": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-tube-500g-front.webp",
-          "small_webp": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-tube-500g-front-600.webp"
+          "png": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-tube-250g-front.png",
+          "webp": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-tube-250g-front.webp",
+          "small_webp": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-tube-250g-front-600.webp"
         },
-        "tube_label_flat": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-tube-500g-label-flat.jpg"
+        "tube_label_flat": "packs/v3/honey-sea-salt/aracari-honey-sea-salt-tube-250g-label-flat.jpg"
       }
     }
   ],
