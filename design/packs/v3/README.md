@@ -22,8 +22,8 @@ design/packs/v3/
   README.md                 this brief
   flavours-v3.json          the 8 flavours: colours, notes, taglines, allergens, image paths, both formats
   overview-fronts.jpg       every pouch and tube front in one picture (reference only)
-  <slug>/aracari-<slug>-pouch-125g-front.png | .webp | -600.webp   pouch front, transparent cut-out
-  <slug>/aracari-<slug>-pouch-125g-back.png  | .webp | -600.webp   pouch back, transparent cut-out
+  <slug>/aracari-<slug>-pouch-100g-front.png | .webp | -600.webp   pouch front, transparent cut-out
+  <slug>/aracari-<slug>-pouch-100g-back.png  | .webp | -600.webp   pouch back, transparent cut-out
   <slug>/aracari-<slug>-tube-250g-front.png  | .webp | -600.webp   tube mockup, transparent cut-out
   <slug>/aracari-<slug>-tube-250g-label-flat.jpg                    tube label unrolled (front half | back half)
 ```
@@ -52,7 +52,7 @@ The flavour name on the front is dark on the light packs (salted caramel, carame
 
 ## Formats (for product pages and an "our packaging" section)
 
-**Update 26 November 2026:** the owner changed the formats to a **125 g pouch** and a **250 g tube**, to keep the shelf price low (around €5 for a pouch). New sizes, all [VERIFY] with the packaging supplier: pouch 120 × 190 mm with a 70 mm bottom gusset (holds about 0.5 L); tube Ø 85 × 170 mm (holds about 0.84 L). The web images in `src/assets/` and the masters in this folder (renamed `pouch-125g` / `tube-250g`) were relabelled to 125 g / 250 g; `overview-fronts.jpg` still shows the old weights. The older figures below are kept for reference.
+**Update 26 November 2026:** the owner changed the formats to a **100 g pouch** and a **250 g tube**, to keep the shelf price low (planned €5,99 for a pouch; all prices are placeholders). New sizes, all [VERIFY] with the packaging supplier: pouch 110 × 170 mm with a 60 mm bottom gusset (holds about 0.35 L); tube Ø 85 × 170 mm (holds about 0.84 L). The web images in `src/assets/` and the masters in this folder (renamed `pouch-100g` / `tube-250g`) were relabelled to 100 g / 250 g (an earlier step the same day had set the pouch to 125 g); `overview-fronts.jpg` still shows the old weights. The older figures below are kept for reference.
 
 **250 g stand-up pouch**: 150 × 220 mm, 80 mm bottom gusset, holds about 0.9 L.
 - Mono-PE film with a thin EVOH oxygen barrier, matte varnish, PE press-to-close zip.
