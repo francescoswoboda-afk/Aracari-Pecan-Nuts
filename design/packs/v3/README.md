@@ -66,7 +66,7 @@ The flavour name on the front is dark on the light packs (salted caramel, carame
 
 Layers of the pouch, outside to inside: matte varnish (1–2 µm), MDO-PE print film (20–25 µm), reverse-printed ink, adhesive, PE (≈40 µm), EVOH (3–5 µm), PE sealant (≈40 µm). These are typical values; the supplier is not chosen yet [VERIFY].
 
-Interactive 3D model of both packs, all 8 flavours, with measurements and the layers (for the owner's reference; link out, don't embed): https://claude.ai/artifact/AMeaBxN2wzbHWjP8KirB24
+Interactive 3D model of both packs, all 8 flavours, with measurements and the layers (for the owner's reference; link out, don't embed): https://claude.ai/artifact/6Tv8PsrZekcCUrxpVY7qbX
 
 ## Claims: what the site may and may not say
 
