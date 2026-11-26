@@ -40,7 +40,7 @@ const DATA = {
      Every flavour comes in both. Sizes and materials are from the pack
      brief; the supplier is not chosen yet, so all of it is [VERIFY].   */
   formats: {
-    pouch: { g: 125, name: { en: '125 g pouch', nl: 'zak van 125 g' } },
+    pouch: { g: 100, name: { en: '100 g pouch', nl: 'zak van 100 g' } },
     tube: { g: 250, name: { en: '250 g tube', nl: 'koker van 250 g' } },
   },
 
@@ -61,7 +61,7 @@ const DATA = {
       tagline: { en: 'Sweet · Salty · Crunchy', nl: 'Zoet · Zout · Knapperig' },
       allergen: { en: 'Contains tree nuts (pecans).', nl: 'Bevat noten (pecannoten).' },
       img: { front: 'assets/salted-caramel-pouch-front.webp', back: 'assets/salted-caramel-pouch-back.webp', tube: 'assets/salted-caramel-tube.webp', label: 'assets/salted-caramel-tube-label.webp' },
-      price: { pouch: 549, tube: 995 } },
+      price: { pouch: 599, tube: 1295 } },
     { id: 'chocolate', taste: 'rich',
       name: { en: 'Chocolate', nl: 'Chocolade' },
       colors: { body: '#4a221a', strip: '#2b1611', band: '#b4472b', name: '#fbefd6' },
@@ -69,7 +69,7 @@ const DATA = {
       tagline: { en: 'Rich · Dark · Crunchy', nl: 'Vol · Puur · Knapperig' },
       allergen: { en: 'Contains tree nuts (pecans). Milk and soy in the chocolate: [VERIFY].', nl: 'Bevat noten (pecannoten). Melk en soja in de chocolade: [VERIFY].' },
       img: { front: 'assets/chocolate-pouch-front.webp', back: 'assets/chocolate-pouch-back.webp', tube: 'assets/chocolate-tube.webp', label: 'assets/chocolate-tube-label.webp' },
-      price: { pouch: 549, tube: 995 } },
+      price: { pouch: 599, tube: 1295 } },
     { id: 'chocolate-sea-salt', taste: 'salty-rich',
       name: { en: 'Chocolate & sea salt', nl: 'Chocolade & zeezout' },
       colors: { body: '#1f5a5c', strip: '#113a3c', band: '#63d8da', name: '#ffffff' },
@@ -77,7 +77,7 @@ const DATA = {
       tagline: { en: 'Dark · Salty · Crunchy', nl: 'Puur · Zout · Knapperig' },
       allergen: { en: 'Contains tree nuts (pecans). Milk and soy in the chocolate: [VERIFY].', nl: 'Bevat noten (pecannoten). Melk en soja in de chocolade: [VERIFY].' },
       img: { front: 'assets/chocolate-sea-salt-pouch-front.webp', back: 'assets/chocolate-sea-salt-pouch-back.webp', tube: 'assets/chocolate-sea-salt-tube.webp', label: 'assets/chocolate-sea-salt-tube-label.webp' },
-      price: { pouch: 549, tube: 995 } },
+      price: { pouch: 599, tube: 1295 } },
     { id: 'caramel', taste: 'sweet',
       name: { en: 'Caramel', nl: 'Karamel' },
       colors: { body: '#e6d2a8', strip: '#4b2a1a', band: '#e17c20', name: '#6b1d14' },
@@ -85,7 +85,7 @@ const DATA = {
       tagline: { en: 'Golden · Sweet · Crunchy', nl: 'Goudgeel · Zoet · Knapperig' },
       allergen: { en: 'Contains tree nuts (pecans).', nl: 'Bevat noten (pecannoten).' },
       img: { front: 'assets/caramel-pouch-front.webp', back: 'assets/caramel-pouch-back.webp', tube: 'assets/caramel-tube.webp', label: 'assets/caramel-tube-label.webp' },
-      price: { pouch: 549, tube: 995 } },
+      price: { pouch: 599, tube: 1295 } },
     { id: 'doce-de-leite', taste: 'sweet',
       name: { en: 'Doce de leite', nl: 'Doce de leite' },
       colors: { body: '#c08243', strip: '#5a2f17', band: '#f2dfb6', name: '#4a2511' },
@@ -93,7 +93,7 @@ const DATA = {
       tagline: { en: 'Creamy · Sweet · Crunchy', nl: 'Romig · Zoet · Knapperig' },
       allergen: { en: 'Contains tree nuts (pecans) and milk.', nl: 'Bevat noten (pecannoten) en melk.' },
       img: { front: 'assets/doce-de-leite-pouch-front.webp', back: 'assets/doce-de-leite-pouch-back.webp', tube: 'assets/doce-de-leite-tube.webp', label: 'assets/doce-de-leite-tube-label.webp' },
-      price: { pouch: 549, tube: 995 } },
+      price: { pouch: 599, tube: 1295 } },
     { id: 'cinnamon-sugar', taste: 'spiced',
       name: { en: 'Cinnamon sugar', nl: 'Kaneelsuiker' },
       colors: { body: '#93301f', strip: '#4a1410', band: '#f2b46a', name: '#fbefd6' },
@@ -101,7 +101,7 @@ const DATA = {
       tagline: { en: 'Warm · Spiced · Crunchy', nl: 'Warm · Kruidig · Knapperig' },
       allergen: { en: 'Contains tree nuts (pecans).', nl: 'Bevat noten (pecannoten).' },
       img: { front: 'assets/cinnamon-sugar-pouch-front.webp', back: 'assets/cinnamon-sugar-pouch-back.webp', tube: 'assets/cinnamon-sugar-tube.webp', label: 'assets/cinnamon-sugar-tube-label.webp' },
-      price: { pouch: 549, tube: 995 } },
+      price: { pouch: 599, tube: 1295 } },
     { id: 'coffee-chocolate', taste: 'rich',
       name: { en: 'Coffee & chocolate', nl: 'Koffie & chocolade' },
       colors: { body: '#33201a', strip: '#a67a3c', band: '#7d4a2c', name: '#fbefd6' },
@@ -109,7 +109,7 @@ const DATA = {
       tagline: { en: 'Bold · Dark · Crunchy', nl: 'Krachtig · Puur · Knapperig' },
       allergen: { en: 'Contains tree nuts (pecans). Milk and soy in the chocolate: [VERIFY].', nl: 'Bevat noten (pecannoten). Melk en soja in de chocolade: [VERIFY].' },
       img: { front: 'assets/coffee-chocolate-pouch-front.webp', back: 'assets/coffee-chocolate-pouch-back.webp', tube: 'assets/coffee-chocolate-tube.webp', label: 'assets/coffee-chocolate-tube-label.webp' },
-      price: { pouch: 549, tube: 995 } },
+      price: { pouch: 599, tube: 1295 } },
     { id: 'honey-sea-salt', taste: 'salty-sweet',
       name: { en: 'Honey & sea salt', nl: 'Honing & zeezout' },
       colors: { body: '#e0a00c', strip: '#6a4208', band: '#fff0b0', name: '#5a3806' },
@@ -117,7 +117,7 @@ const DATA = {
       tagline: { en: 'Golden · Salty · Crunchy', nl: 'Goudgeel · Zout · Knapperig' },
       allergen: { en: 'Contains tree nuts (pecans).', nl: 'Bevat noten (pecannoten).' },
       img: { front: 'assets/honey-sea-salt-pouch-front.webp', back: 'assets/honey-sea-salt-pouch-back.webp', tube: 'assets/honey-sea-salt-tube.webp', label: 'assets/honey-sea-salt-tube-label.webp' },
-      price: { pouch: 549, tube: 995 } },
+      price: { pouch: 599, tube: 1295 } },
   ],
 
   /* Shown on every product. Ingredients and traces are not known yet. */
@@ -137,24 +137,24 @@ const DATA = {
   /* Subscription: a fresh pack (in the chosen format) every month. Discount is a placeholder. */
   subscription: { enabled: true, discountPercent: 10 /* [TBD] */ },
 
-  /* ---------------- Bundles (125 g pouches) ------------------------ */
+  /* ---------------- Bundles (100 g pouches) ------------------------ */
   bundles: [
     { id: 'tasting-box', kind: 'tasting',
       name: { en: 'The tasting box', nl: 'De proefdoos' },
       blurb: { en: 'One pouch of every flavour. Eight colours, eight moods, one table.', nl: 'Eén zak van elke smaak. Acht kleuren, acht stemmingen, één tafel.' },
       contents: 'all',            // every flavour above
-      priceCents: 3995 },         // [TBD] placeholder (8 × €5,49 = €43,92)
+      priceCents: 4395 },         // [TBD] placeholder (8 × €5,99 = €47,92)
     { id: 'wine-night', kind: 'wine',
       name: { en: 'Wine night box', nl: 'Wijnavond-box' },
       blurb: { en: 'Three flavours picked to sit next to a glass of red, a glass of white and something sweet, with a pairing card.', nl: 'Drie smaken naast een glas rood, een glas wit en iets zoets, met een pairingkaart.' },
       contents: ['chocolate-sea-salt', 'salted-caramel', 'honey-sea-salt'],
-      priceCents: 1495 },         // [TBD] placeholder (3 × €5,49 = €16,47)
+      priceCents: 1649 },         // [TBD] placeholder (3 × €5,99 = €17,97)
     { id: 'gift-box', kind: 'gift',
       name: { en: 'The gift box', nl: 'De cadeaudoos' },
       blurb: { en: 'Four pouches in a box, with a handwritten-style card carrying your own message.', nl: 'Vier zakken in een doos, met een kaartje met jouw eigen boodschap.' },
       contents: ['salted-caramel', 'chocolate', 'caramel', 'cinnamon-sugar'],
       giftMessage: true,
-      priceCents: 2295 },         // [TBD] placeholder (4 × €5,49 = €21,96, plus the box)
+      priceCents: 2495 },         // [TBD] placeholder (4 × €5,99 = €23,96, plus the box)
   ],
 
   /* ---------------- Flavour finder (the quiz in the "nut" section) ----
