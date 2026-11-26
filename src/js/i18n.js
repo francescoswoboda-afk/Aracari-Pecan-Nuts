@@ -29,7 +29,7 @@ const NL = {
   'pk.pouch.t': 'Stazak van 125 g', 'pk.pouch.size': '120 × 190 mm · zipsluiting <span class="tbd">[VERIFY]</span>',
   'pk.pouch.made': 'Vooral één soort plastic (PE), met een heel dunne zuurstofbarrière (EVOH) en een matte lak. <span class="tbd">[VERIFY]</span>',
   'pk.pouch.bin': 'Recyclebaar: bij het plastic afval (PMD), in Nederland en België. <span class="tbd">[VERIFY]</span>',
-  'pk.tube.t': 'Papieren koker van 250 g', 'pk.tube.size': 'Ø 80 × 160 mm · metalen deksel <span class="tbd">[VERIFY]</span>',
+  'pk.tube.t': 'Papieren koker van 250 g', 'pk.tube.size': 'Ø 85 × 170 mm · metalen deksel <span class="tbd">[VERIFY]</span>',
   'pk.tube.made': 'Gewikkeld karton, voor meer dan 90% papier, met een barrièrelaag en een afpelbaar sluitfolie. <span class="tbd">[VERIFY]</span>',
   'pk.tube.bin': 'De koker bij het oud papier, het metalen deksel bij het PMD. Het sluitfolie hangt af van de leverancier. <span class="tbd">[VERIFY]</span>',
   'pk.note': 'De afbeeldingen van de verpakkingen op deze site zijn digitale mockups, geen foto’s van het product. De verpakkingsleverancier is nog niet gekozen, dus elk cijfer hier moet nog gecontroleerd worden.',

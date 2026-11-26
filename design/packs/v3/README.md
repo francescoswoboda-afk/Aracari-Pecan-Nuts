@@ -52,7 +52,7 @@ The flavour name on the front is dark on the light packs (salted caramel, carame
 
 ## Formats (for product pages and an "our packaging" section)
 
-**Update 26 November 2026:** the owner changed the formats to a **125 g pouch** and a **250 g tube**, to keep the shelf price low (around €5 for a pouch). New sizes, all [VERIFY] with the packaging supplier: pouch 120 × 190 mm with a 70 mm bottom gusset (holds about 0.5 L); tube Ø 80 × 160 mm (holds about 0.8 L). The web images in `src/assets/` were relabelled to 125 g / 250 g; the PNG/WebP masters in this folder still say 250 g / 500 g. The older figures below are kept for reference.
+**Update 26 November 2026:** the owner changed the formats to a **125 g pouch** and a **250 g tube**, to keep the shelf price low (around €5 for a pouch). New sizes, all [VERIFY] with the packaging supplier: pouch 120 × 190 mm with a 70 mm bottom gusset (holds about 0.5 L); tube Ø 85 × 170 mm (holds about 0.8 L). The web images in `src/assets/` were relabelled to 125 g / 250 g; the PNG/WebP masters in this folder still say 250 g / 500 g. The older figures below are kept for reference.
 
 **250 g stand-up pouch**: 150 × 220 mm, 80 mm bottom gusset, holds about 0.9 L.
 - Mono-PE film with a thin EVOH oxygen barrier, matte varnish, PE press-to-close zip.
